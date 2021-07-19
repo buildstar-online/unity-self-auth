@@ -1,10 +1,15 @@
-# Unity Wont Authorize My Personal Licenses so I Started Using Selenium to Be Petty Online
+# Using seleium to authorizue unty personal licenses
 
+WIP project for a game jam
 ____________________________________________________
 
 ## Usage
 
+follow the machine setup guide
+
 ```bash
+cd program
+
 python3 license.py license/Unity_v2020.3.10f1.alf config/config.json
 
 python3 script <path/to/file.alf> <path/to/config.json>
