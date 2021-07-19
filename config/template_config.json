@@ -1,0 +1,17 @@
+{
+  "user": {
+    "username": "some_email@some_website.com",
+    "password": "YourPasswordGoesHere"
+  },
+  "config": {
+    "login_button": "//div[contains(@class,'nest inbl primary')]",
+    "file_elementId": "licenseFile",
+    "email_elementId": "conversations_create_session_form_email",
+    "button_class_name": "//input[contains(@class,'btn')]",
+    "password_elementId": "conversations_create_session_form_password"
+  },
+  "urls": {
+    "login": "https://id.unity.com/en",
+    "license": "https://license.unity3d.com/manual"
+  }
+}

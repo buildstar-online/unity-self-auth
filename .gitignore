@@ -1,0 +1,9 @@
+config.json
+geckodriver.log
+license_page.html
+login_page.html
+*.alf
+./html_reference
+./logs
+./license
+./config/config.json
