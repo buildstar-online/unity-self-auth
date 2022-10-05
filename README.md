@@ -74,66 +74,16 @@ ____________________________________________________
 - encrypt sensitive data, store in k8s or cloud (moving data to config file, then encryption can be done)
 - logging
 
-____________________________________________________
-
-## Dev Environment Setup
-
 ### notes, not code - it probably wont run right now
 
 ```bash
-#enable swap on laptops - must be more than ram
-code /etc/systemd/logind.conf
-
-#set upgrade to Prompt=normmal
-code /etc/update-manager/release-upgrades
-sudo sed -i 's/lts/normal/g' /etc/update-manager/release-upgrades
-
-
-
-#change grub resolution to be readable
-sudo update-grub
-sudo update-initramfs -k all -u
-
-
-#!/bin/bash
-#install VS Code
-sudo snap install --classic code
-sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
-
-#install Docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 
 #install pip
-sudo apt-get install python3-pip
+sudo apt-get install python3-pip docker.io
 
-#install brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/max/.profile
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-install Teams
-#https://go.microsoft.com/fwlink/p/?LinkID=2112886&clcid=0x409&culture=en-us&country=US
-dpkg -i dpkg -i teams_1.4.00.7556_amd64.deb
-
-#install Kubectl, helm, minikube
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-#install Unity Hub
-#https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage
-#chmod +x UnityHub.AppImage
-
-export VERSION="2020.3.10f1"
-export APPDIR=~/Unity/Hub/Editor/$VERSION/Editor
+export VERSION="2022.1.18f1"
+export APPDIR="/opt/unity/editors/$VERSION/Editor"
 export USN="email"
 export PSWD="password"
 export LICENSE_NAME="Unity_v${VERSION}.alf"
