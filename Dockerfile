@@ -89,4 +89,10 @@ RUN pip3 install selenium && \
   sudo mv geckodriver ~/.local/bin
 
 # Get an alf file
-RUN /opt/unity/editors/2022.1.23f1/Editor/Unity -quit -batchmode -/opt/unity/editors/2022.1.23f1/Editor/Unity -quit -batchmode -nographics -logFile /dev/stdout -createManualActivationFile -username "username" -password "password"
+RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -/opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -nographics -logFile /dev/stdout -createManualActivationFile -username "username" -password "password"
+
+RUN git clone https://github.com/cloudymax/unity-self-auth.git
+
+WORKDIR /home/runner/unity-self-auth
+
+RUN pip3 install -r requirements.txt
