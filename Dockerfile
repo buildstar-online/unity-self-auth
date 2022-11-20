@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bookworm as base
 
 ENV GEKKO_VERSION="0.32.0"
 ENV HUB_VERSION="3.3.0"
@@ -58,6 +58,8 @@ RUN apt-get update && \
     sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb && \
     rm libssl1.1_1.1.1f-1ubuntu2_amd64.deb
 
+from base as hub
+
 # Unity-Hub install
 RUN sh -c 'echo "deb https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list' \
  && wget -qO - https://hub.unity3d.com/linux/keys/public | apt-key add - \
@@ -72,12 +74,22 @@ RUN echo '#!/bin/bash\nxvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-
  export APP_DIR=$(echo "/opt/unity/editors/$EDITOR_VERSION/Editor") && \
  xvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-sandbox --headless install-path --set "/opt/unity/editors"
 
+from hub as editor
+
 # Install the unity editor version (changeset required) to the new path
 RUN unity-hub install --version $EDITOR_VERSION --changeset $CHANGE_SET | tee /var/log/install-editor.log && grep 'Error' /var/log/install-editor.log | exit $(wc -l)
 
 # Switch to the user account and user home directory
 USER runner
 WORKDIR /home/runner
+
+# Get an alf file
+RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -/opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -nographics -logFile /dev/stdout -createManualActivationFile -username "username" -password "password"
+
+
+FROM hub as selenium
+
+COPY --from=editor /home/runner/*alf .
 
 # Install selenium for automating firefox
 RUN pip3 install selenium && \
