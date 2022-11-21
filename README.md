@@ -28,7 +28,7 @@ ____________________________________________________
     The dockerfile takes a username and password as build args, which are used to create the .alf file we need to request a license.
     
     ```bash
-    docker build --build-arg USERNAME=someuser \
+    docker build --build-arg USER_NAME=someuser \
     --build-arg PASSWORD=somepassword \
     -t auther .
     ```
