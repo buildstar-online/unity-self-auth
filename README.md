@@ -34,9 +34,7 @@ docker build -t auther .
 3. Run the program 
 
 ```bash
-docker run -it auther license.py Unity_v2020.3.10f1.alf config/config.json
-
-python3 script <path/to/file.alf> <path/to/config.json>
+docker run -it auther python3 license.py ~/*alf ../config/template_config.json
 ```
 ____________________________________________________
 
