@@ -35,9 +35,9 @@ ____________________________________________________
 
 3. Run the program 
 
-```bash
-docker run -it auther python3 license.py ~/*alf ../config/template_config.json
-```
+    ```bash
+    docker run -it auther python3 license.py ~/*alf ../config/template_config.json
+    ```
 ____________________________________________________
 
 ## Maintenance
