@@ -5,31 +5,33 @@ ____________________________________________________
 
 ## Usage
 
-1. How to pick a Unity Editor Version and a Changeset
+1. Pick a Unity Editor Version and a Changeset
 
     This one can be trickey because Unity doesnt provide a =n easy way to fin this information. 
     There is a great community repo by [mob-sakai](ttps://github.com/mob-sakai) that you can user to     list that data here [mob-sakai/unity-changeset](https://github.com/mob-sakai/unity-changeset)
 
-Install the package via NPM:
+    - Install the package via NPM:
 
-```bash
-npm install unity-changeset
-```
+        ```bash
+        npm install unity-changeset
+        ```
 
-List Unity Editor versions with changesets
+    - List Unity Editor versions with changesets
 
-```bash
-unity-changeset list
-```
-
-Now edit the Dockerfile to use the values you want
+        ```bash 
+        unity-changeset list
+        ```
 
 
 2. Build the docker file
 
-```bash
-docker build -t auther .
-```
+    The dockerfile takes a username and password as build args, which are used to create the .alf file we need to request a license.
+    
+    ```bash
+    docker build --build-arg USERNAME=someuser \
+    --build-arg PASSWORD=somepassword \
+    -t auther .
+    ```
 
 3. Run the program 
 
