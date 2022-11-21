@@ -30,6 +30,9 @@ ____________________________________________________
     ```bash
     docker build --build-arg USER_NAME=someuser \
     --build-arg PASSWORD=somepassword \
+    --build-arg EDITOR_VERSION="2022.1.23f1" \
+    --build-arg CHANGE_SET="9636b062134a" \
+    --build-arg HUB_VERSION="3.3.0"
     -t auther .
     ```
 
