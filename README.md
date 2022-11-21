@@ -1,6 +1,6 @@
-# Using seleium to authorizue untiy personal licenses
+# Using seleium to authorizue Unity Engine "Personal" licenses
 
-WIP project for a game jam
+very much WIP
 ____________________________________________________
 
 ## Usage
@@ -23,21 +23,21 @@ ____________________________________________________
         ```
 
 
-2. Build the docker file
+2. Build the docker container
 
     The dockerfile takes a username and password as build args, which are used to create the .alf file we need to request a license.
     
     ```bash
-    docker build --build-arg USERNAME=someuser \
+    docker build --build-arg USER_NAME=someuser \
     --build-arg PASSWORD=somepassword \
     -t auther .
     ```
 
 3. Run the program 
 
-```bash
-docker run -it auther python3 license.py ~/*alf ../config/template_config.json
-```
+    ```bash
+    docker run -it auther python3 license.py ~/*alf ../config/template_config.json
+    ```
 ____________________________________________________
 
 ## Maintenance
@@ -51,15 +51,3 @@ configuration_settings:
 html_references:
 
 - where I save out html copies of the websites so you can sanity-check the search params if needed in case they change down the line
-
-license:
-
-- put your .alf here
-
-logs:
-
-- self explanitory
-
-template_config:
-
-- example config file
