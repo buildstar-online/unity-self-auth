@@ -86,21 +86,31 @@ def login(driver, settings, debug=False):
 
     # driver.find_element_by_xpath(settings['config']['login_button']).click()
 
-
-def unity_auth_upload(driver):
+def unity_auth_upload(driver, settings, debug=False):
 
     # get the liscence activation page
-    driver.get(unity_license_url)
+    driver.get(settings['urls']['license'])
     time.sleep(5)
-    print_page(driver, "license_upload")
+    #print_page(driver, "license_upload")
 
-    # get the file upload element and pass it our license file
-    driver.find_element_by_id(file_elementId).send_keys(license_path)
+    try:
+        # get the file upload element and pass it our license file
+        driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
+        io.print_pretty(f"Located the file upload file field.", debug)
 
-    # submit the file to the unity license server
-    # - will redirect you forcibly to the unity account login if you arent using a logged-in session
-    webElement = driver.find_element_by_xpath(button_class_name)
-    click_only(driver, webElement)
+        # submit the file to the unity license server
+        # will redirect you forcibly to the unity account login if you arent using
+        # a logged-in session
+        webElement = driver.find_element(By.XPATH, settings['config']['button_class_name'])
+        io.print_pretty(f"Located the file upload button.", debug)
+
+        click_only(driver, webElement)
+        io.print_pretty(f"Successfully clicked the upload button", debug)
+
+    except Exception as err:
+        io.print_pretty(f"Unable to upload alf file", True)
+        print_page(driver, "click_element_error", True)
+        return err
 
 
 def select_license_type(driver):
@@ -164,8 +174,8 @@ def main():                                         # main program
     password = settings['user']['password']
 
     login(driver, settings, debug)
-    unity_auth_upload(driver)
-    select_license_type(driver)
+    unity_auth_upload(driver, settings, debug)
+    #select_license_type(driver)
 
 
 main()
