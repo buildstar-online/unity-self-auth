@@ -1,4 +1,4 @@
-# Using seleium to authorizue Unity Engine "Personal" licenses
+# Using seleium to authorize Unity Engine "Personal" licenses
 
 very much WIP
 ____________________________________________________
