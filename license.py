@@ -34,7 +34,7 @@ def element_by_xpath(driver, xpath, debug=False):
         wait = WebDriverWait(driver, timeout=6)
         element = driver.find_elements(By.XPATH, xpath)
         io.print_pretty(f"lookup successfull: found {element} using the path: {xpath}", debug)
-        return element
+        return element[0]
     except Exception as err:
         io.print_pretty(f"cant find the element w/ xpath {xpath}", True)
         print_page(driver, "element_by_xpath_error")
