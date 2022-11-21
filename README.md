@@ -51,15 +51,3 @@ configuration_settings:
 html_references:
 
 - where I save out html copies of the websites so you can sanity-check the search params if needed in case they change down the line
-
-license:
-
-- put your .alf here
-
-logs:
-
-- self explanitory
-
-template_config:
-
-- example config file
