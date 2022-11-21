@@ -4,9 +4,6 @@
 FROM debian:bookworm as base
 
 ENV GEKKO_VERSION="0.32.0"
-ENV HUB_VERSION="3.3.0"
-ENV EDITOR_VERSION="2022.1.23f1"
-ENV CHANGE_SET="9636b062134a"
 ENV LICENSE_NAME="Unity_v${EDITOR_VERSION}.alf"
 ENV OLD_SSL_DEB="http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
 ENV PATH="$PATH:/home/runner/.local/bin"
@@ -65,7 +62,9 @@ RUN apt-get update && \
 ######################################################################
 # Add UnityHub to the base image
 ######################################################################
-from base as hub
+FROM base as hub
+
+ARG HUB_VERSION
 
 # Unity-Hub install
 RUN sh -c 'echo "deb https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list' \
@@ -97,6 +96,8 @@ WORKDIR /home/runner
 
 ARG PASSWORD
 ARG USER_NAME
+ARG EDITOR_VERSION
+ARG CHANGE_SET
 
 # Get an alf file
 RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit \
