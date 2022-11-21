@@ -19,6 +19,7 @@ RUN mkdir -p "/opt/unityhub/chrome-sandbox" && mkdir -p "/opt/unity/editors"
 # Add the out-of-date ssl package as workaround for known issue
 RUN apt-get update && \
     apt-get upgrade -y && \
+    DEBIAN_FRONTEND=noninteractive \
     apt-get install -y \
     apt-utils \
     ca-certificates \
@@ -69,8 +70,9 @@ from base as hub
 # Unity-Hub install
 RUN sh -c 'echo "deb https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list' \
  && wget -qO - https://hub.unity3d.com/linux/keys/public | apt-key add - \
- && apt-get -q update \
- && apt-get -q install -y "unityhub=$HUB_VERSION" \
+ && apt-get  update \
+ && DEBIAN_FRONTEND=noninteractive \
+ apt-get install -y "unityhub=$HUB_VERSION" \
  && apt-get clean
 
 # Alias unityhub to unity-hub which adds a virtual framebuffer and runs in
@@ -92,6 +94,9 @@ RUN unity-hub install --version $EDITOR_VERSION --changeset $CHANGE_SET | tee /v
 # Switch to the user account and user home directory
 USER runner
 WORKDIR /home/runner
+
+ARG PASSWORD
+ARG USER_NAME
 
 # Get an alf file
 RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit \
@@ -119,7 +124,9 @@ RUN mkdir -p /home/runner/.local/bin && \
 USER runner
 
 ENV URL_BASE="https://github.com/mozilla/geckodriver/releases/download"
-RUN sudo apt-get update && sudo apt-get install -y firefox-esr && \
+RUN sudo apt-get update && \
+    DEBIAN_FRONTEND=noninteractive \
+    sudo apt-get install -y firefox-esr && \
     pip3 install selenium && \
     export PACKAGE_NAME=$(echo geckodriver-v${GEKKO_VERSION}-linux64.tar.gz) && \
     export GEKKO_URL=$(echo "$URL_BASE/v${GEKKO_VERSION}/${PACKAGE_NAME}") && \
@@ -131,7 +138,13 @@ RUN sudo apt-get update && sudo apt-get install -y firefox-esr && \
 
 WORKDIR /home/runner
 
+ARG USER_NAME
+ARG PASSWORD
+
 RUN git clone https://github.com/cloudymax/unity-self-auth.git && \
-    pip3 install -r unity-self-auth/requirements.txt
+    pip3 install -r unity-self-auth/requirements.txt && \
+    sudo mv /Unity*.alf unity-self-auth/ && \
+    sed -i "s/some_email@some_website.com/$USER_NAME/g" unity-self-auth/config.json && \
+    sed -i "s/YourPasswordGoesHere/$PASSWORD/g" unity-self-auth/config.json
 
 WORKDIR /home/runner/unity-self-auth
