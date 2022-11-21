@@ -120,9 +120,9 @@ WORKDIR /home/runner
 RUN git clone https://github.com/cloudymax/unity-self-auth.git && \
     pip3 install -r unity-self-auth/requirements.txt
 
-WORKDIR /home/runner/unity-self-auth/config
+WORKDIR /home/runner/unity-self-auth
 
-RUN sed -i "s/some_email@some_website.com/${USN}/g" template_config.json && \
-    sed -i "s/YourPasswordGoesHere/${PSWD}/g" template_config.json
-
-WORKDIR /home/runner/unity-self-auth/program
+RUN ls -hal && \
+    pwd && \
+    sed -i "s/some_email@some_website.com/${USN}/g" config.json && \
+    sed -i "s/YourPasswordGoesHere/${PSWD}/g" config.json
