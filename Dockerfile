@@ -86,7 +86,7 @@ RUN echo '#!/bin/bash\nxvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-
 # Install a copy fo the Editor using the Hub image
 # Used to generate .alf file
 ######################################################################
-from hub as editor
+FROM hub as editor
 
 # Install the unity editor version (changeset required) to the new path
 RUN unity-hub install --version $EDITOR_VERSION --changeset $CHANGE_SET | tee /var/log/install-editor.log && grep 'Error' /var/log/install-editor.log | exit $(wc -l)
