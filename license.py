@@ -32,7 +32,7 @@ class config():
 def element_by_xpath(driver, xpath, debug=False):
     try:
         wait = WebDriverWait(driver, timeout=6)
-        element = driver.find_element_by_xpath(xpath)
+        element = driver.find_elements(By.XPATH, xpath)
         io.print_pretty(f"lookup successfull: found {element} using the path: {xpath}", debug)
         return element
     except Exception as err:
