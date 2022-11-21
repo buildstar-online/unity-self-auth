@@ -151,7 +151,7 @@ def main():                                         # main program
     # run FireFox in headless mode
     opts = webdriver.FirefoxOptions()
     opts.headless = True
-    assert not opts.headless
+    assert opts.headless
 
     driver = webdriver.Firefox(options=opts)
     driver.implicitly_wait(10)
