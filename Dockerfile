@@ -4,9 +4,10 @@ ENV GEKKO_VERSION="0.32.0"
 ENV HUB_VERSION="3.3.0"
 ENV EDITOR_VERSION="2022.1.23f1"
 ENV CHANGE_SET="9636b062134a"
-ENV USN="email"
-ENV PSWD="password"
+ENV USN="emax@cloudydev.net"
+ENV PSWD="Y337Password!"
 ENV LICENSE_NAME="Unity_v${EDITOR_VERSION}.alf"
+ENV OLD_SSL_DEB="http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
 
 RUN mkdir -p "/opt/unityhub/chrome-sandbox" && mkdir -p "/opt/unity/editors"
 
@@ -48,13 +49,12 @@ RUN apt-get update && \
     xvfb \
     sudo \
     python3 \
-    python3-pip \
-    firefox-esr && \
+    python3-pip && \
     rm -rf /var/lib/apt/lists/* && \
     useradd -ms /usr/sbin/nologin runner && \
     usermod -aG sudo runner && \
     echo 'runner ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
-    wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb && \
+    wget ${OLD_SSL_DEB} && \
     sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb && \
     rm libssl1.1_1.1.1f-1ubuntu2_amd64.deb
 
@@ -84,27 +84,45 @@ USER runner
 WORKDIR /home/runner
 
 # Get an alf file
-RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -/opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -nographics -logFile /dev/stdout -createManualActivationFile -username "username" -password "password"
+RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit \
+    -batchmode \
+    -nographics \
+    -logFile /dev/stdout \
+    -createManualActivationFile \
+    -username "username" \
+    -password "password"
 
 
 FROM hub as selenium
-
 COPY --from=editor /home/runner/*alf .
 
 # Install selenium for automating firefox
-RUN pip3 install selenium && \
-    sudo mkdir -p ~/.local/bin && \
-    export GEKKO_URL=$(echo "https://github.com/mozilla/geckodriver/releases/download/v${GEKKO_VERSION}/geckodriver-v${GEKKO_VERSION}-linux64.tar.gz") && \
+RUN mkdir -p /home/runner/.local/bin && \
+    mkdir -p /home/runner/.local/lib && \
+    sudo chown runner:runner /home/runner/.local/bin && \
+    sudo chown runner:runner /home/runner/.local/lib
+
+USER runner
+ENV URL_BASE="https://github.com/mozilla/geckodriver/releases/download"
+RUN sudo apt-get update && sudo apt-get install -y firefox-esr && \
+    pip3 install selenium && \
+    export PACKAGE_NAME=$(echo geckodriver-v${GEKKO_VERSION}-linux64.tar.gz) && \
+    export GEKKO_URL=$(echo "$URL_BASE/v${GEKKO_VERSION}/${PACKAGE_NAME}") && \
   sudo wget $GEKKO_URL && \
   sudo tar xvfz geckodriver-v"${GEKKO_VERSION}"-linux64.tar.gz && \
   sudo rm geckodriver-v"${GEKKO_VERSION}"-linux64.tar.gz && \
   sudo mv geckodriver ~/.local/bin
 
-# Get an alf file
-RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -/opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit -batchmode -nographics -logFile /dev/stdout -createManualActivationFile -username "username" -password "password"
+ENV PATH="$PATH:/home/runner/.local/bin"
 
-RUN git clone https://github.com/cloudymax/unity-self-auth.git
+WORKDIR /home/runner
 
-WORKDIR /home/runner/unity-self-auth
+RUN git clone https://github.com/cloudymax/unity-self-auth.git && \
+    pip3 install -r unity-self-auth/requirements.txt
 
-RUN pip3 install -r requirements.txt
+WORKDIR /home/runner/unity-self-auth/config
+
+RUN sed -i "s/some_email@some_website.com/${USN}/g" template_config.json && \
+    sed -i "s/YourPasswordGoesHere/${PSWD}/g" template_config.json
+
+WORKDIR /home/runner/unity-self-auth/program

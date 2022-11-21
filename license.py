@@ -9,16 +9,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
-user_name = "username"
-password = "password"
-
 tmp_file_dir = "html_reference"
 
 license_file = sys.argv[1]
-license_path = os.getcwd() + "/license/" + license_file
+license_path = os.getcwd() + license_file
 
 config_file = sys.argv[2]
-config_path = os.getcwd() + "/config/" + config_file
+config_path = os.getcwd() + config_file
 
 
 class radio_button():
