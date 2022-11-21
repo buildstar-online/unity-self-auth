@@ -52,14 +52,12 @@ def element_by_id(driver, elementId, debug=False):  # returns html element
         return err
 
 
-def click_on_ready(driver, element, debug=False):
-
-    wait = WebDriverWait(driver, 10)
-
+def click_on_ready(driver, element, debug=True):
     try:
-        wait.until(ec.element_to_be_clickable(element.__dict__))
+        wait = WebDriverWait(driver, 6)
+        wait.until(ec.element_to_be_clickable(element))
         element.click()
-        io.print_pretty(f"click successful on element {element}")
+        io.print_pretty(f"click successful on element {element}", True)
     except Exception as err:
         io.print_pretty(f"click failed on element {element}", True)
         print_page(driver, "click_element_error", True)
