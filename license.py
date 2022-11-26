@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as ec
 tmp_file_dir = "html_reference"
 
 license_file = sys.argv[1]
-license_path = os.getcwd() + license_file
+license_path = os.getcwd() + "/" + license_file
 
 config_file = sys.argv[2]
 config_path = os.getcwd() + config_file
@@ -38,6 +38,7 @@ def element_by_xpath(driver, xpath, debug=False):
     except Exception as err:
         io.print_pretty(f"cant find the element w/ xpath {xpath}", True)
         print_page(driver, "element_by_xpath_error")
+        print(err)
         return err
 
 
@@ -49,6 +50,7 @@ def element_by_id(driver, elementId, debug=False):  # returns html element
     except Exception as err:
         io.print_pretty(f"cant find the elemtn w/ path {elementId}", True)
         print_page(driver, "element_by_id_error", True)
+        print(err)
         return err
 
 
@@ -61,6 +63,8 @@ def click_on_ready(driver, element, debug=True):
     except Exception as err:
         io.print_pretty(f"click failed on element {element}", True)
         print_page(driver, "click_element_error", True)
+        print(err)
+        return err
 
 def login(driver, settings, debug=False):
 
@@ -90,27 +94,19 @@ def unity_auth_upload(driver, settings, debug=False):
 
     # get the liscence activation page
     driver.get(settings['urls']['license'])
-    time.sleep(5)
-    #print_page(driver, "license_upload")
 
-    try:
-        # get the file upload element and pass it our license file
-        driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
-        io.print_pretty(f"Located the file upload file field.", debug)
+    # get the file upload element and pass it our license file
+    driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
+    io.print_pretty(f"Located the file upload file field.", debug)
+        
+    # submit the file to the unity license server
+    # will redirect you forcibly to the unity account login if you arent using
+    # a logged-in session
+    webElement = driver.find_element(By.XPATH, settings['config']['button_class_name'])
+    io.print_pretty(f"Located the file upload button.", debug)
 
-        # submit the file to the unity license server
-        # will redirect you forcibly to the unity account login if you arent using
-        # a logged-in session
-        webElement = driver.find_element(By.XPATH, settings['config']['button_class_name'])
-        io.print_pretty(f"Located the file upload button.", debug)
-
-        click_only(driver, webElement)
-        io.print_pretty(f"Successfully clicked the upload button", debug)
-
-    except Exception as err:
-        io.print_pretty(f"Unable to upload alf file", True)
-        print_page(driver, "click_element_error", True)
-        return err
+    click_only(driver, webElement)
+    io.print_pretty(f"Successfully clicked the upload button", debug)
 
 
 def select_license_type(driver):
