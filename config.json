@@ -1,7 +1,7 @@
 {
   "user": {
-    "username": "some_email@some_website.com",
-    "password": "YourPasswordGoesHere"
+    "username": "someuser",
+    "password": "somepassword"
   },
   "config": {
     "login_button": "//div[contains(@class,'nest inbl primary')]",
@@ -13,5 +13,12 @@
   "urls": {
     "login": "https://id.unity.com/en",
     "license": "https://license.unity3d.com/manual"
+  },
+  "radio_buttons": {
+    "Personal": "//input[contains(@id,'type_personal')]",
+    "Professional": "//input[contains(@id,'type_serial')]",
+    "over100": "//input[contains(@id,'option1')]",
+    "under100": "//input[contains(@id,'option2')]",
+    "nosale": "//input[contains(@id,'option3')]"
   }
 }
