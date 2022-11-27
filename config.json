@@ -15,8 +15,8 @@
     "license": "https://license.unity3d.com/manual"
   },
   "radio_buttons": {
-    "Personal": "//label[contains(text(), 'type_personal')]",
-    "Professional": "//input[contains(@id,'type_serial')]",
+    "Personal": "//h3[contains(text(), 'Unity Personal Edition')]",
+    "Professional": "//h3[contains(text(), 'Unity Plus or Pro')]",
     "over100": "//input[contains(@id,'option1')]",
     "under100": "//input[contains(@id,'option2')]",
     "nosale": "//input[contains(@id,'option3')]"
