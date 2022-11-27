@@ -15,7 +15,7 @@
     "license": "https://license.unity3d.com/manual"
   },
   "radio_buttons": {
-    "Personal": "//input[contains(@id,'type_personal')]",
+    "Personal": "//label[contains(text(), 'type_personal')]",
     "Professional": "//input[contains(@id,'type_serial')]",
     "over100": "//input[contains(@id,'option1')]",
     "under100": "//input[contains(@id,'option2')]",
