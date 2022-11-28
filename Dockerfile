@@ -7,6 +7,11 @@ ENV GEKKO_VERSION="0.32.0"
 ENV LICENSE_NAME="Unity_v${EDITOR_VERSION}.alf"
 ENV OLD_SSL_DEB="http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb"
 ENV PATH="$PATH:/home/runner/.local/bin"
+ARG PASSWORD
+ARG USER_NAME
+ARG EDITOR_VERSION
+ARG CHANGE_SET
+
 
 # Unity hub needs the chrome-sandbox folder to avoid an arbitrary error
 # also create the dir where we will store the downloaded editor
@@ -43,7 +48,6 @@ RUN apt-get update && \
     openssh-client \
     python3 \
     python3-pip \
-    python-setuptools \
     software-properties-common \
     sudo \
     wget \
@@ -52,12 +56,13 @@ RUN apt-get update && \
     xz-utils \
     zenity && \
     rm -rf /var/lib/apt/lists/* && \
-    useradd -ms /usr/sbin/nologin runner && \
+    useradd -ms /bin/bash runner && \
     usermod -aG sudo runner && \
     echo 'runner ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     wget ${OLD_SSL_DEB} && \
     sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb && \
     rm libssl1.1_1.1.1f-1ubuntu2_amd64.deb
+
 
 ######################################################################
 # Add UnityHub to the base image
@@ -65,6 +70,11 @@ RUN apt-get update && \
 FROM base as hub
 
 ARG HUB_VERSION
+ARG PASSWORD
+ARG USER_NAME
+ARG EDITOR_VERSION
+ARG CHANGE_SET
+
 
 # Unity-Hub install
 RUN sh -c 'echo "deb https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list' \
@@ -81,11 +91,18 @@ RUN echo '#!/bin/bash\nxvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-
  export APP_DIR=$(echo "/opt/unity/editors/$EDITOR_VERSION/Editor") && \
  xvfb-run -ae /dev/stdout /opt/unityhub/unityhub-bin --no-sandbox --headless install-path --set "/opt/unity/editors"
 
+
 ######################################################################
-# Install a copy fo the Editor using the Hub image
+# Install a copy of the Editor using the Hub image
 # Used to generate .alf file
 ######################################################################
 FROM hub as editor
+
+ARG PASSWORD
+ARG USER_NAME
+ARG EDITOR_VERSION
+ARG CHANGE_SET
+
 
 # Install the unity editor version (changeset required) to the new path
 RUN unity-hub install --version $EDITOR_VERSION --changeset $CHANGE_SET | tee /var/log/install-editor.log && grep 'Error' /var/log/install-editor.log | exit $(wc -l)
@@ -94,19 +111,15 @@ RUN unity-hub install --version $EDITOR_VERSION --changeset $CHANGE_SET | tee /v
 USER runner
 WORKDIR /home/runner
 
-ARG PASSWORD
-ARG USER_NAME
-ARG EDITOR_VERSION
-ARG CHANGE_SET
-
 # Get an alf file
-RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit \
+RUN /opt/unity/editors/$EDITOR_VERSION/Editor/Unity -quit \
     -batchmode \
     -nographics \
     -logFile /dev/stdout \
     -createManualActivationFile \
     -username "$USER_NAME" \
     -password "$PASSWORD"
+
 
 ######################################################################
 # Copy the alf file from the Editor layer and then
@@ -115,6 +128,8 @@ RUN /opt/unity/editors/${EDITOR_VERSION}/Editor/Unity -quit \
 # #####################################################################
 FROM hub as selenium
 COPY --from=editor /home/runner/*alf .
+
+RUN echo "$HUB_VERSION, $PASSWORD, $USER_NAME, $EDITOR_VERSION, $CHANGE_SET"
 
 RUN mkdir -p /home/runner/.local/bin && \
     mkdir -p /home/runner/.local/lib && \
@@ -142,10 +157,12 @@ WORKDIR /home/runner
 ARG USER_NAME
 ARG PASSWORD
 
+RUN echo "$HUB_VERSION, $PASSWORD, $USER_NAME, $EDITOR_VERSION, $CHANGE_SET"
+
 RUN git clone https://github.com/cloudymax/unity-self-auth.git && \
     pip3 install -r unity-self-auth/requirements.txt && \
     sudo mv /Unity*.alf unity-self-auth/ && \
     sed -i "s/some_email@some_website.com/$USER_NAME/g" unity-self-auth/config.json && \
     sed -i "s/YourPasswordGoesHere/$PASSWORD/g" unity-self-auth/config.json
 
-WORKDIR /home/runner/unity-self-auth
+ENTRYPOINT ["/home/runner/unity-self-auth/license.py", "Unity*", "config.json"]
