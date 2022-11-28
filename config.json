@@ -5,6 +5,8 @@
   },
   "config": {
     "login_button": "//div[contains(@class,'nest inbl primary')]",
+    "license_options_submit": "//input[contains(@class,'btn mb10')]",
+    "download_license": "//input[contains(@class,'btn mb10')]",
     "file_elementId": "licenseFile",
     "email_elementId": "conversations_create_session_form_email",
     "button_class_name": "//input[contains(@class,'btn')]",
@@ -13,5 +15,12 @@
   "urls": {
     "login": "https://id.unity.com/en",
     "license": "https://license.unity3d.com/manual"
+  },
+  "radio_buttons": {
+    "Personal": "//h3[contains(text(), 'Unity Personal Edition')]",
+    "Professional": "//h3[contains(text(), 'Unity Plus or Pro')]",
+    "over100": "//label[contains(text(), 'earned more than')]",
+    "under100": "//label[contains(text(), 'earned less than')]",
+    "nosale": "//label[contains(text(), 'use Unity in a professional capacity.')]"
   }
 }
