@@ -142,9 +142,22 @@ def select_license_type(driver, settings, debug=False):
     # get the available options
 
     # click the Unity Personal option
-    # webElement = driver.find_element(By.XPATH, settings['radio_buttons']['Personal'])
-    webElement = driver.find_element(By.XPATH, "//h3[contains(text(), 'Unity Personal Edition')]").click()
+    webElement = driver.find_element(By.XPATH, settings['radio_buttons']['Personal'])
     
+    click_on_ready(driver, webElement, debug)
+
+    webElement = driver.find_element(By.XPATH, settings['radio_buttons']['nosale']) 
+    
+    click_on_ready(driver, webElement, debug)
+    
+    webElement = driver.find_element(By.XPATH, settings['config']['license_options_submit'])
+    
+    click_on_ready(driver, webElement, debug)
+
+    time.sleep(2)
+
+    webElement = driver.find_element(By.XPATH, settings['config']['download_license']).click()
+
 
 def click_only(driver, webElement):
     # generic function to perform a mouse click ONLY on a webElement

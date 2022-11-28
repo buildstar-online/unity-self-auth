@@ -1,10 +1,12 @@
 {
   "user": {
-    "username": "someuser",
-    "password": "somepassword"
+    "username": "some_email@some_website.com",
+    "password": "YourPasswordGoesHere"
   },
   "config": {
     "login_button": "//div[contains(@class,'nest inbl primary')]",
+    "license_options_submit": "//input[contains(@class,'btn mb10')]",
+    "download_license": "//input[contains(@class,'btn mb10')]",
     "file_elementId": "licenseFile",
     "email_elementId": "conversations_create_session_form_email",
     "button_class_name": "//input[contains(@class,'btn')]",
@@ -17,8 +19,8 @@
   "radio_buttons": {
     "Personal": "//h3[contains(text(), 'Unity Personal Edition')]",
     "Professional": "//h3[contains(text(), 'Unity Plus or Pro')]",
-    "over100": "//input[contains(@id,'option1')]",
-    "under100": "//input[contains(@id,'option2')]",
-    "nosale": "//input[contains(@id,'option3')]"
+    "over100": "//label[contains(text(), 'earned more than')]",
+    "under100": "//label[contains(text(), 'earned less than')]",
+    "nosale": "//label[contains(text(), 'use Unity in a professional capacity.')]"
   }
 }
