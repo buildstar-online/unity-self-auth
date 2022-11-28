@@ -137,25 +137,22 @@ def select_license_type(driver, settings, debug=False):
     This function will select the appropriate options for requesting a 
     personal license
     """
-    # attempts to select one of the radio button objects
-    # print_page(driver, "activation_type_selection")
-    # get the available options
 
     # click the Unity Personal option
     webElement = driver.find_element(By.XPATH, settings['radio_buttons']['Personal'])
-    
     click_on_ready(driver, webElement, debug)
-
+    
+    # click an option
     webElement = driver.find_element(By.XPATH, settings['radio_buttons']['nosale']) 
-    
     click_on_ready(driver, webElement, debug)
     
+    # submit choice
     webElement = driver.find_element(By.XPATH, settings['config']['license_options_submit'])
-    
     click_on_ready(driver, webElement, debug)
 
     time.sleep(2)
 
+    # download the license file to ~/Downloads
     webElement = driver.find_element(By.XPATH, settings['config']['download_license']).click()
 
 
@@ -221,7 +218,6 @@ def main():
     # Perform authentication steps
     login(driver, settings, debug)
     unity_auth_upload(driver, settings, debug)
-    #select_license_type(driver, settings, debug)
 
 
 main()
