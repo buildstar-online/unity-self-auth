@@ -14,6 +14,7 @@ import time
 
 
 tmp_file_dir = "html_reference"
+headless=True
 
 license_file = sys.argv[1]
 license_path = os.getcwd() + "/" + license_file
@@ -205,9 +206,14 @@ def main():
 
     # Set if FireFox runs in headless mode
     opts = webdriver.FirefoxOptions()
-    opts.headless = True
-    assert opts.headless
-
+    
+    if headless:
+        opts.headless = True
+        assert opts.headless
+    else:
+        opts.headless = False
+        assert not opts.headless
+    
     # Instantiate the gekko driver
     driver = webdriver.Firefox(options=opts)
     driver.implicitly_wait(10)
