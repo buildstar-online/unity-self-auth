@@ -3,6 +3,14 @@
 very much WIP
 ____________________________________________________
 
+!: this project requires an email + password. I will use [Bitwarden CLI] in my examples but since this really is meant to run in a pipeline, using a [Github Secret], [Gitlab variable] etc... is strongly advised.
+
+- [Install the Bitwarden CLI]
+- [Install the Github CLI]
+- [Install the Gitlab CLI]
+
+
+
 ## Usage
 
 1. Pick a Unity Editor Version and a Changeset
@@ -54,3 +62,12 @@ configuration_settings:
 html_references:
 
 - where I save out html copies of the websites so you can sanity-check the search params if needed in case they change down the line
+
+
+<!--  Link References -->
+[Bitwarden CLI]: https://github.com/bitwarden/cli "check out bitwarden-cli on github"
+[Github Secret]: https://cli.github.com/manual/gh_secret "Use gh cli to set, list, and delete secrets"
+[Gitlab Variable]: https://gitlab.com/gitlab-org/cli/-/tree/main/docs/source "Use the gitlab cli to add, remove, and list Gitlab Variables"
+[Install the Bitwarden CLI]: https://bitwarden.com/help/cli/ "Visit the Bitwarden installation docs"
+[Install the Gitlab CLI]: https://gitlab.com/gitlab-org/cli "Visit the Gitlab CLI docs"
+[Install the Github CLI]: https://cli.github.com/ "Visit the Githubcli homepage"
