@@ -36,6 +36,10 @@ ____________________________________________________
     The dockerfile takes a username and password as build args, which are used to create the .alf file we need to request a license.
     
     ```bash
+    bw login
+    bw unlock
+    bw sync
+    
     docker build --build-arg USER_NAME=$(bw get username unity3d-login) \
     --build-arg PASSWORD=$(bw get password unity3d-login) \
     --build-arg EDITOR_VERSION="2022.1.23f1" \
