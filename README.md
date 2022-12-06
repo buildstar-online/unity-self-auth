@@ -2,7 +2,7 @@
 
 1. This project is a work-in-progres and is not considdered to be in a functional state for end-users.
 
-2. An email + password is required to build the Docker container. I use [Bitwarden CLI] in my examples to handle secrets. You could also use [Github Secrets], [Gitlab Variables] 
+2. An email + password is required to build the Docker container. I use [Bitwarden CLI] in my examples to handle secrets. You could also use [Github Secrets], [Gitlab Variables] etc...
 
 - [Install the Bitwarden CLI]
 - [Install the Github CLI]
