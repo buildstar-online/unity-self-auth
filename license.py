@@ -92,13 +92,13 @@ def login(driver, settings, debug=False):
     driver.get(settings['urls']['login'])
 
     # populate the username field
-    usn = settings['user']['username']
+    usn = os.getenv('USERNAME')
     usn_element = settings['config']['email_elementId']
     username_element = element_by_id(driver, usn_element, debug)
     username_element.send_keys(usn)
 
     # populate the password field
-    psw = settings['user']['password']
+    psw = os.getenv('PASSWORD')
     psw_element = settings['config']['password_elementId']
     password_element = element_by_id(driver, psw_element, debug)
     password_element.send_keys(psw)
@@ -229,6 +229,5 @@ def main():
     # Perform authentication steps
     login(driver, settings, debug)
     unity_auth_upload(driver, settings, debug)
-
 
 main()
