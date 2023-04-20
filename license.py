@@ -218,7 +218,7 @@ def main():
     driver.implicitly_wait(10)
 
     # Read settings from jsonfile
-    debug = True
+    debug = False
     go_steppy = False
     json_data = io.read_file(config_file)
 
