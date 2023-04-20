@@ -9,11 +9,11 @@ on:
       selenium_image:
         description: 'Selenium Image'
         required: true
-        default: '2022.1.23f1'
+        default: 'deserializeme/gcicudaselenium:latest'
       editor_version:
         description: 'Editor Version'
         required: true
-        default: 'deserializeme/gcicudaeditor:latest'
+        default: '2022.1.23f1''
 
 jobs:
   test-auth:
