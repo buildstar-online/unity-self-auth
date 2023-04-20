@@ -4,7 +4,7 @@
 
 ## Usage
 
-1. Pick a Unity Editor Version and a Changeset
+### Pick a Unity Editor Version and a Changeset
 
     This one can be trickey because Unity doesnt provide a =n easy way to fin this information. 
     There is a great community repo by [mob-sakai](ttps://github.com/mob-sakai) that you can user to     list that data here [mob-sakai/unity-changeset](https://github.com/mob-sakai/unity-changeset)
@@ -21,38 +21,52 @@
         unity-changeset list
         ```
 
-3. Run the program 
+### ALF file creation
 
-    ```bash
-    EDITOR_VERSION="2022.1.23f1"
-    CHANGE_SET="9636b062134a"
-    HUB_VERSION="3.3.0"
-    USERNAME=""
-    PASSWORD=""
+Uses the Unity Editor to create .alf file and save it in the Downloads/ folder.
 
-    mkdir -p Downloads && \
-    touch Downloads/Unity_v${EDITOR_VERSION}.alf && \
-    docker run --rm -it -v $(pwd):/home/player1 \
-        -v $(pwd)/Downloads/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
-        --user 1000:1000 \
-        deserializeme/gcicudaeditor:latest \
-        unity-editor -quit \
-        -batchmode \
-        -nographics \
-        -logFile /dev/stdout \
-        -createManualActivationFile \
-        -username "$USERNAME" \
-        -password "$PASSWORD"
+```bash
+EDITOR_VERSION="2022.1.23f1"
+CHANGE_SET="9636b062134a"
+HUB_VERSION="3.3.0"
+EDITOR_IMAGE="deserializeme/gcicudaeditor:latest"
+SLENIUM_IMAGE="deserializeme/gcicudaselenium:latest"
+USERNAME=""
+PASSWORD=""
 
-    docker run --rm -it -v $(pwd):/home/player1 \
-        --user 1000:1000 \
-        -v $(pwd)/config.json:/home/player1/config.json \
-        -v $(pwd)/Downloads:/home/player1/Downloads \
-        -e USERNAME="$USERNAME" \
-        -e PASSWORD="$PASSWORD" \
-        deserializeme/gcicudaselenium:latest \
-        ./license.py Downloads/*.alf config.json
-    ```
+docker pull $EDITOR_IMAGE
+docker pull $SLENIUM_IMAGE
+
+mkdir -p Downloads && \
+touch Downloads/Unity_v${EDITOR_VERSION}.alf && \
+docker run --rm -it -v $(pwd):/home/player1 \
+    -v $(pwd)/Downloads/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
+    --user 1000:1000 \
+    $EDITOR_IMAGE \
+    unity-editor -quit \
+    -batchmode \
+    -nographics \
+    -logFile /dev/stdout \
+    -createManualActivationFile \
+    -username "$USERNAME" \
+    -password "$PASSWORD"
+```
+
+### ULF file creation
+
+Mounts the Downloads/ folder and tries to convert the .alf file to a .ulf license.
+
+> you will liekly encounter issues if running this from a machine in a region other that the one you have chosen for your unity account. For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine.
+ 
+```bash
+docker run --rm -it -v $(pwd)/config.json:/home/player1/config.json \
+    --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/Downloads \
+    --user 1000:1000 \
+    -e USERNAME="$USERNAME" \
+    -e PASSWORD="$PASSWORD" \
+    $SLENIUM_IMAGE \
+    ./unity-self-auth/license.py Downloads/*.alf config.json
+```
 ____________________________________________________
 
 ## Maintenance
