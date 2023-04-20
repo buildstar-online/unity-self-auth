@@ -10,6 +10,11 @@ jobs:
   build-selenium:
     runs-on: self-hosted
     steps:
+      - name: clear cache
+        run: |
+          yes | docker system prune -a
+        shell: bash
+        
       - name: Checkout
         uses: actions/checkout@v3
       
