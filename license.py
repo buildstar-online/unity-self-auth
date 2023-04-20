@@ -18,8 +18,7 @@ headless=True
 license_file = sys.argv[1]
 license_path = os.getcwd() + "/" + license_file
 
-config_file = sys.argv[2]
-config_path = os.getcwd() + config_file
+config_path = os.getcwd() + "/config.json"
 
 class radio_button():
     Name = ""
