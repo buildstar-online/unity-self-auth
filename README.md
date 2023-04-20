@@ -1,27 +1,14 @@
 # Using seleium to authorize Unity Engine "Personal" licenses
 
-**This project is a work-in-progres and is not considdered to be in a functional state for end-users.**
+**This project is currently in aplha-testing and is considerd to be functional with the following caveats.**
 
-## Usage
+1. You will liekly encounter issues with ULF fiel creation if running from a machine in a region other that the one you have chosen for your unity account. For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine.
 
-### Pick a Unity Editor Version and a Changeset
-
-    This one can be trickey because Unity doesnt provide a =n easy way to fin this information. 
-    There is a great community repo by [mob-sakai](ttps://github.com/mob-sakai) that you can user to     list that data here [mob-sakai/unity-changeset](https://github.com/mob-sakai/unity-changeset)
-
-    - Install the package via NPM:
-
-        ```bash
-        npm install unity-changeset
-        ```
-
-    - List Unity Editor versions with changesets
-
-        ```bash 
-        unity-changeset list
-        ```
-
-### ALF file creation
+2. Regualr GameCI images are not yet supported.
+ 
+3. Only Editor-Version `2022.1.23f1` is supported at the moment
+ 
+## ALF file creation
 
 Uses the Unity Editor to create .alf file and save it in the Downloads/ folder.
 
@@ -52,11 +39,9 @@ docker run --rm -it -v $(pwd):/home/player1 \
     -password "$PASSWORD"
 ```
 
-### ULF file creation
+## ULF file creation
 
 Mounts the Downloads/ folder and tries to convert the .alf file to a .ulf license.
-
-> you will liekly encounter issues if running this from a machine in a region other that the one you have chosen for your unity account. For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine.
  
 ```bash
 docker run --rm -it -v $(pwd)/config.json:/home/player1/config.json \
