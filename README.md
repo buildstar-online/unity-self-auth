@@ -2,7 +2,7 @@
 
 **This project is currently in alpha-testing and is considerd to be functional with the following caveats.**
 
-1. You will liekly encounter issues with ULF fiel creation if running from a machine in a region other that the one you have chosen for your unity account. For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine.
+1. You will likely encounter issues with ULF fiel creation if running from a machine in a region other that the one you have chosen for your unity account. For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine.
 
 2. Regualr GameCI images are not yet supported.
  
