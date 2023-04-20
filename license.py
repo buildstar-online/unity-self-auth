@@ -5,13 +5,12 @@ import os
 import time
 import io_tools as io
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-
 import time
-
 
 tmp_file_dir = "html_reference"
 headless=True
@@ -21,7 +20,6 @@ license_path = os.getcwd() + "/" + license_file
 
 config_file = sys.argv[2]
 config_path = os.getcwd() + config_file
-
 
 class radio_button():
     Name = ""
@@ -206,16 +204,17 @@ def main():
 
     # Set if FireFox runs in headless mode
     opts = webdriver.FirefoxOptions()
-    
+    opts.binary_location = '/usr/bin/firefox-esr'
+
     if headless:
         opts.headless = True
         assert opts.headless
     else:
         opts.headless = False
         assert not opts.headless
-    
+
     # Instantiate the gekko driver
-    driver = webdriver.Firefox(options=opts)
+    driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', options=opts)
     driver.implicitly_wait(10)
 
     # Read settings from jsonfile
