@@ -1,4 +1,5 @@
-FROM deserializeme/gcicudahub:latest as selenium
+ARG sourceImage="deserializeme/gcicudahub:latest"
+FROM $sourceImage as selenium
 
 ENV GEKKO_VERSION="0.33.0"
 ENV GEKKO_URL="https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz"
