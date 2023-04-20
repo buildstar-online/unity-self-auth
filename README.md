@@ -11,8 +11,6 @@
 3. A GUI Dockerfile is provided for debugging but this really is meant to run in a pipeline as a headless process.
 
 
-
-
 ## Usage
 
 1. Pick a Unity Editor Version and a Changeset
@@ -32,28 +30,37 @@
         unity-changeset list
         ```
 
-
-2. Build the docker container
-
-    The dockerfile takes a username and password as build args, which are used to create the .alf file we need to request a license.
-    
-    ```bash
-    bw login
-    bw unlock
-    bw sync
-    
-    docker build --build-arg USER_NAME=$(bw get username unity3d-login) \
-    --build-arg PASSWORD=$(bw get password unity3d-login) \
-    --build-arg EDITOR_VERSION="2022.1.23f1" \
-    --build-arg CHANGE_SET="9636b062134a" \
-    --build-arg HUB_VERSION="3.3.0" \
-    -t auther .
-    ```
-
 3. Run the program 
 
     ```bash
-    docker run -it auther 
+    EDITOR_VERSION="2022.1.23f1"
+    CHANGE_SET="9636b062134a"
+    HUB_VERSION="3.3.0"
+    USERNAME=""
+    PASSWORD=""
+
+    mkdir -p Downloads && \
+    touch Downloads/Unity_v${EDITOR_VERSION}.alf && \
+    docker run --rm -it -v $(pwd):/home/player1 \
+        -v $(pwd)/Downloads/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
+        --user 1000:1000 \
+        deserializeme/gcicudaeditor:latest \
+        unity-editor -quit \
+        -batchmode \
+        -nographics \
+        -logFile /dev/stdout \
+        -createManualActivationFile \
+        -username "$USERNAME" \
+        -password "$PASSWORD"
+
+    docker run --rm -it -v $(pwd):/home/player1 \
+        --user 1000:1000 \
+        -v $(pwd)/config.json:/home/player1/config.json \
+        -v $(pwd)/Downloads:/home/player1/Downloads \
+        -e USERNAME="$USERNAME" \
+        -e PASSWORD="$PASSWORD" \
+        deserializeme/gcicudaselenium:latest \
+        ./license.py Downloads/*.alf config.json
     ```
 ____________________________________________________
 
