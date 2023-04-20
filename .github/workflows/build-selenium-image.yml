@@ -6,15 +6,20 @@ on:
         description: 'Image Tag'
         required: true
         default: 'latest'
+      base_image:
+        description: 'Hub Image'
+        required: true
+        default: 'deserializeme/gcicudahub:latest'
+
 jobs:
   build-selenium:
     runs-on: self-hosted
     steps:
       - name: clear cache
         run: |
-          yes | docker system prune -a
+          docker system prune -a --force
         shell: bash
-        
+
       - name: Checkout
         uses: actions/checkout@v3
       
@@ -37,7 +42,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          file: Dockerfile
+          file: Dockerfile.cuda-selenium
           build-args: |
           context: .
           push: ${{ github.event_name != 'pull_request' }}
