@@ -229,5 +229,13 @@ def main():
     # Perform authentication steps
     login(driver, settings, debug)
     unity_auth_upload(driver, settings, debug)
-
+    # Wait for fileIO to complete
+    time.sleep(2.4)
+    from pathlib import Path
+    path_to_file = '/home/player1/Downloads/Unity_v2022.x.ulf'
+    path = Path(path_to_file)
+    if path.is_file():
+        print(f'The file {path_to_file} exists')
+    else:
+        print(f'The file {path_to_file} does not exist')
 main()
