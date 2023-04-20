@@ -1,7 +1,5 @@
 {
   "user": {
-    "username": "some_email@some_website.com",
-    "password": "YourPasswordGoesHere"
   },
   "config": {
     "login_button": "//div[contains(@class,'nest inbl primary')]",
