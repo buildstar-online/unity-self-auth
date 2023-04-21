@@ -28,6 +28,10 @@ jobs:
           touch ./Downloads/Unity_v$EDITOR_VERSION.alf && \
           ls -hal / && \
           ls -hal ./Downloads
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
           
       - name: generate alf
         continue-on-error: true
@@ -50,6 +54,11 @@ jobs:
         run: |
           ls -hal / && \
           ls -hal ./Downloads
+          cat ./Downloads/Unity_v$EDITOR_VERSION.alf
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
           
       - name: generate ulf
         run: |
