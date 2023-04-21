@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p ./Downloads && \
           touch ./Downloads/Unity_v$EDITOR_VERSION.alf && \
-          docker run --rm -it -v $(pwd):/home/player1 \
+          docker run --rm -v $(pwd):/home/player1 \
             -v $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
             --user 1000:1000 \
             $EDITOR_IMAGE \
@@ -42,7 +42,7 @@ jobs:
           EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
       - name: generate ulf
         run: |
-          docker run --rm -it -v $(pwd)/config.json:/home/player1/config.json \
+          docker run --rm -v $(pwd)/config.json:/home/player1/config.json \
             --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/Downloads \
             --user 1000:1000 \
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
