@@ -125,7 +125,7 @@ def unity_auth_upload(driver, settings, debug=False):
 
     # get the file upload element and pass it our license file
     # We have to do a sleep here or Unity will clear our inputs
-    time.sleep(10)
+    time.sleep(20)
     io.print_pretty('Looking for the upload field...', debug)
     driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
     io.print_pretty("Located the file upload file field.", debug)
