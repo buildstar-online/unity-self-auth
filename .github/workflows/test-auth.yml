@@ -54,7 +54,4 @@ jobs:
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
-          
-      - name: list files
-        run: ls -hal Downloads
-        shell: bash
+
