@@ -212,13 +212,8 @@ def main():
     opts.binary_location = '/usr/bin/firefox-esr'
 
     if headless:
-        opts.headless = True
-        assert opts.headless
+        opts.add_argument("--headless=new")
         io.print_pretty('Using Headless Mode', True)
-    else:
-        opts.headless = False
-        assert not opts.headless
-        io.print_pretty('Running with Display', True)
 
     # Instantiate the gekko driver
     driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', options=opts)
