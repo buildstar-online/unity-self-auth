@@ -219,7 +219,7 @@ def main():
     # Read settings from jsonfile
     debug = False
     go_steppy = False
-    json_data = io.read_file(config_file)
+    json_data = io.read_file(config_path)
 
     # Convert json data into dict
     vars = io.Variables(json_data, debug, go_steppy)
