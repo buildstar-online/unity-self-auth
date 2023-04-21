@@ -88,21 +88,25 @@ def login(driver, settings, debug=False):
     """
 
     # get to unity id login page
+    io.print_pretty('Loading the unity login page...', debug)
     driver.get(settings['urls']['login'])
 
     # populate the username field
+    io.print_pretty('Populating the username field...', debug)
     usn = os.getenv('USERNAME')
     usn_element = settings['config']['email_elementId']
     username_element = element_by_id(driver, usn_element, debug)
     username_element.send_keys(usn)
 
     # populate the password field
+    io.print_pretty('Populating the password field...', debug)
     psw = os.getenv('PASSWORD')
     psw_element = settings['config']['password_elementId']
     password_element = element_by_id(driver, psw_element, debug)
     password_element.send_keys(psw)
 
     # click the login button
+    io.print_pretty('Click the Login Button...', debug)
     wait = WebDriverWait(driver, 20)
     button_name = settings['config']['login_button']
     login_button = element_by_xpath(driver, button_name)
@@ -116,11 +120,13 @@ def unity_auth_upload(driver, settings, debug=False):
     """
 
     # get the liscence activation page
+    io.print_pretty('Load the License Activation Page...', debug)
     driver.get(settings['urls']['license'])
 
     # get the file upload element and pass it our license file
     # We have to do a sleep here or Unity will clear our inputs
     time.sleep(10)
+    io.print_pretty('Looking for the upload field...', debug)
     driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
     io.print_pretty("Located the file upload file field.", debug)
 
@@ -200,7 +206,7 @@ def main():
     This program will attempt to automatically create, upload,
     and authorize a unity personal licesnse.
     """
-
+    io.print_pretty('Starting...', debug)
     # Set if FireFox runs in headless mode
     opts = webdriver.FirefoxOptions()
     opts.binary_location = '/usr/bin/firefox-esr'
@@ -208,15 +214,18 @@ def main():
     if headless:
         opts.headless = True
         assert opts.headless
+        io.print_pretty('Using Headless Mode', debug)
     else:
         opts.headless = False
         assert not opts.headless
+        io.print_pretty('Running with Display', debug)
 
     # Instantiate the gekko driver
     driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', options=opts)
     driver.implicitly_wait(10)
 
     # Read settings from jsonfile
+    io.print_pretty('Loading Settings...', debug)
     debug = True
     go_steppy = False
     json_data = io.read_file(config_path)
@@ -226,7 +235,10 @@ def main():
     settings = vars.settings
 
     # Perform authentication steps
+    io.print_pretty('Logging in...', debug)
     login(driver, settings, debug)
+    
+    io.print_pretty('Uploading .alf file...', debug)
     unity_auth_upload(driver, settings, debug)
     
     # Wait for fileIO to complete
