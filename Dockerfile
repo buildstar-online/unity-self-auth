@@ -36,5 +36,3 @@ RUN sudo add-apt-repository -y ppa:mozillateam/ppa && \
 RUN pip3 install -r unity-self-auth/requirements.txt
 
 WORKDIR /home/player1/unity-self-auth
-
-ENTRYPOINT [ "./license.py" ]
