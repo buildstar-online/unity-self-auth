@@ -36,6 +36,7 @@ jobs:
       - name: generate alf
         continue-on-error: true
         run: |
+          ls -hal && \
           docker run --rm -v $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
             --user root \
             $EDITOR_IMAGE \
