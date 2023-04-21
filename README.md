@@ -1,6 +1,6 @@
 # Using seleium to authorize Unity Engine "Personal" licenses
 
-**This project is currently in alpha-testing and is considerd to be functional with the following caveats.**
+**This project is a work in progress**
 
 1. You will likely encounter issues with ULF file creation if running from a machine in a region other than the one you have chosen for your unity account. For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine. Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
 
