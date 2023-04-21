@@ -64,13 +64,12 @@ jobs:
           
       - name: generate ulf
         run: |
-          docker run --rm -v $(pwd)/config.json:/home/player1/config.json \
-            --mount type=bind,source=$(pwd)/Downloads,target=/home/player1/Downloads \
+          docker run --rm --mount type=bind,source=$(pwd)/Downloads,target=/home/player1/Downloads \
             --user 1000:1000 \
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             $SELENIUM_IMAGE \
-            ./unity-self-auth/license.py Downloads/*.alf config.json
+            ./license.py Downloads/*.alf
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
