@@ -1,9 +1,9 @@
-ARG sourceImage="deserializeme/gcicudahub:latest"
-FROM $sourceImage as selenium
+ARG hubImage="deserializeme/gcicudahub:latest"
+FROM $hubImage as selenium
 
-ENV GEKKO_VERSION="0.33.0"
-ENV GEKKO_URL="https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz"
-  
+ARG geckoVersion="0.33.0"
+ARG geckoUrl="https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz"
+
 COPY sources.list.datapacket /etc/apt/sources.list
 
 RUN apt-get update && yes |apt-get install -y sudo \
@@ -19,19 +19,22 @@ RUN sudo mkdir -p /home/player1/.local/bin && \
     sudo chown player1:player1 /home/player1/.local/bin && \
     sudo chown player1:player1 /home/player1/.local/lib
 
-RUN git clone https://github.com/cloudymax/unity-self-auth.git
-
 # Swap to user account for install so pip doesnt break
 USER player1
+WORKDIR /home/player1/
+
+RUN git clone https://github.com/cloudymax/unity-self-auth.git
 
 RUN sudo add-apt-repository -y ppa:mozillateam/ppa && \
     sudo apt-get install -y firefox-esr && \
     pip3 install selenium && \
-    sudo wget $GEKKO_URL && \
-    sudo tar xvfz geckodriver-v"${GEKKO_VERSION}"-linux64.tar.gz && \
-    sudo rm geckodriver-v"${GEKKO_VERSION}"-linux64.tar.gz && \
+    sudo wget $geckoUrl && \
+    sudo tar xvfz geckodriver-v"$geckoVersion"-linux64.tar.gz && \
+    sudo rm geckodriver-v"$geckoVersion"-linux64.tar.gz && \
     sudo mv geckodriver ~/.local/bin
     
 RUN pip3 install -r unity-self-auth/requirements.txt
 
-WORKDIR /home/player1
+WORKDIR /home/player1/unity-self-auth
+
+ENTRYPOINT [ "./license.py" ]
