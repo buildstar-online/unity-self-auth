@@ -21,10 +21,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        
       - name: generate alf
+        continue-on-error: true
         run: |
           mkdir -p ./Downloads && \
           touch ./Downloads/Unity_v$EDITOR_VERSION.alf && \
+          ls -hal / && \
+          ls -hal ./Downloads && \
           docker run --rm -v $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
             $EDITOR_IMAGE \
             unity-editor -quit \
@@ -34,6 +38,8 @@ jobs:
             -createManualActivationFile \
             -username ${{ secrets.UNITY_USERNAME }} \
             -password ${{ secrets.UNITY_PASSWORD }}
+          ls -hal / && \
+          ls -hal ./Downloads
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
