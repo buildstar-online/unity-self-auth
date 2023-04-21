@@ -54,9 +54,9 @@ jobs:
       - name: check
         run: |
           ls -hal / && \
-          ls -hal ./Downloads && \
-          echo "reading alf..." && \
-          cat ./Downloads/Unity_v$EDITOR_VERSION.alf
+          ls -hal ./Downloads
+          #echo "reading alf..." && \
+          #cat ./Downloads/Unity_v$EDITOR_VERSION.alf
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
@@ -65,11 +65,11 @@ jobs:
       - name: generate ulf
         run: |
           docker run --rm -v $(pwd)/config.json:/home/player1/config.json \
-            --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/Downloads \
+            --mount type=bind,source=$(pwd)/Downloads,target=/home/player1/Downloads \
             --user 1000:1000 \
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
-            $SLENIUM_IMAGE \
+            $SELENIUM_IMAGE \
             ./unity-self-auth/license.py Downloads/*.alf config.json
         shell: bash
         env:
