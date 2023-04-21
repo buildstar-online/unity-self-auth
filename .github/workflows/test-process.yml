@@ -74,3 +74,20 @@ jobs:
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
+
+      - name: check
+        run: |
+          ls -hal / && \
+          ls -hal ./Downloads
+          echo "reading alf..." && \
+          echo "UNITY_LICENSE=$(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)" >> $GITHUB_ENV
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
+          
+      - uses: gliech/create-github-secret-action@v1
+        with:
+          name: UNITY_LICENSE
+          value: $UNITY_LICENSE
+          pa_token: ${{ secrets.PAT }}
