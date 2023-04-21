@@ -37,6 +37,7 @@ jobs:
         continue-on-error: true
         run: |
           docker run --rm -v $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
+            --user root \
             $EDITOR_IMAGE \
             unity-editor -quit \
             -batchmode \
