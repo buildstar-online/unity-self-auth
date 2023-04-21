@@ -212,7 +212,7 @@ def main():
     opts.binary_location = '/usr/bin/firefox-esr'
 
     if headless:
-        opts.add_argument("--headless=new")
+        opts.add_argument("-headless") 
         io.print_pretty('Using Headless Mode', True)
 
     # Instantiate the gekko driver
