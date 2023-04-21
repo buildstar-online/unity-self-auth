@@ -43,6 +43,16 @@ docker run --rm -it -v $(pwd):/home/player1 \
 Mounts the Downloads/ folder and tries to convert the .alf file to a .ulf license.
  
 ```bash
+docker run --rm -it --user 1000:1000 \
+    -p 5900:5900 \
+    --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/unity-self-auth/Downloads \
+    -e USERNAME="$USERNAME" \
+    -e PASSWORD="$PASSWORD" \
+    $SLENIUM_IMAGE \
+    /bin/bash
+```
+ 
+```bash
 docker run --rm -it --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/unity-self-auth/Downloads \
     --user 1000:1000 \
     -e USERNAME="$USERNAME" \
