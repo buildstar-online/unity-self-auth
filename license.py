@@ -206,7 +206,7 @@ def main():
     This program will attempt to automatically create, upload,
     and authorize a unity personal licesnse.
     """
-    io.print_pretty('Starting...', debug)
+    io.print_pretty('Starting...', True)
     # Set if FireFox runs in headless mode
     opts = webdriver.FirefoxOptions()
     opts.binary_location = '/usr/bin/firefox-esr'
@@ -214,18 +214,18 @@ def main():
     if headless:
         opts.headless = True
         assert opts.headless
-        io.print_pretty('Using Headless Mode', debug)
+        io.print_pretty('Using Headless Mode', True)
     else:
         opts.headless = False
         assert not opts.headless
-        io.print_pretty('Running with Display', debug)
+        io.print_pretty('Running with Display', True)
 
     # Instantiate the gekko driver
     driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', options=opts)
     driver.implicitly_wait(10)
 
     # Read settings from jsonfile
-    io.print_pretty('Loading Settings...', debug)
+    io.print_pretty('Loading Settings...', True)
     debug = True
     go_steppy = False
     json_data = io.read_file(config_path)
