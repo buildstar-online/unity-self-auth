@@ -103,7 +103,7 @@ def login(driver, settings, debug=False):
     password_element.send_keys(psw)
 
     # click the login button
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 20)
     button_name = settings['config']['login_button']
     login_button = element_by_xpath(driver, button_name)
     click_on_ready(driver, login_button, debug)
@@ -120,7 +120,7 @@ def unity_auth_upload(driver, settings, debug=False):
 
     # get the file upload element and pass it our license file
     # We have to do a sleep here or Unity will clear our inputs
-    time.sleep(5)
+    time.sleep(10)
     driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
     io.print_pretty("Located the file upload file field.", debug)
 
