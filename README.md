@@ -57,8 +57,8 @@ docker run --rm -it --mount type=bind,source="$(pwd)"/Downloads,target=/home/pla
     --user 1000:1000 \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
-    $SLENIUM_IMAGE \
-    ./license.py Downloads/*.alf
+    deserializeme/gcicudaselenium:xfce\
+    /bin/bash
 ```
 ____________________________________________________
 
