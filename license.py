@@ -213,9 +213,10 @@ def main():
     opts.binary_location = '/usr/bin/firefox-esr'
 
     io.print_pretty('Determining headless status', True)
-    headless = os.getenv('HEADLESS')
-    if headless == True:
-        opts.add_argument("-headless") 
+    headless = os.getenv("HEADLESS", "False") == "True"
+
+    if(headless):
+        opts.add_argument("-headless")
         io.print_pretty('Using Headless Mode', True)
     else:
         io.print_pretty('Using Graphical Mode', True)
