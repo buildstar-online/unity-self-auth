@@ -67,7 +67,7 @@ jobs:
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             -e HEADLESS=False \
-            $SELENIUM_IMAGE xvfb-run ./license.py Downloads/Unity_v2022.1.23f1.alf
+            $SELENIUM_IMAGE license.py Downloads/Unity_v2022.1.23f1.alf
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
