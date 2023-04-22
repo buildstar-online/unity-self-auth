@@ -32,9 +32,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            deserializeme/gcicudaselenium
+            deserializeme/gcicudaseleniumxfce
           tags: |
-            "xfce"
+            "latest"
           
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
