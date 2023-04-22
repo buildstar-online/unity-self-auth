@@ -212,7 +212,7 @@ def main():
     opts = webdriver.FirefoxOptions()
     opts.binary_location = '/usr/bin/firefox-esr'
 
-    if headless:
+    if headless == True:
         opts.add_argument("-headless") 
         io.print_pretty('Using Headless Mode', True)
 
