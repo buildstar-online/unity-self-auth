@@ -10,7 +10,7 @@ on:
       selenium_image:
         description: 'Selenium Image'
         required: true
-        default: 'deserializeme/gcicudaselenium:latest'
+        default: 'deserializeme/gcicudaseleniumxfce:latest'
       editor_version:
         description: 'Editor Version'
         required: true
@@ -70,7 +70,7 @@ jobs:
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             $SELENIUM_IMAGE \
-            ./license.py Downloads/*.alf
+            x11vnc --loop --create
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
