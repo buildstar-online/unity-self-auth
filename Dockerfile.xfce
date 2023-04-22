@@ -15,7 +15,8 @@ RUN apt-get update && yes |apt-get install -y sudo \
     xterm \
     xvfb \
     x11vnc \
-    neovim
+    neovim \
+    xfce4-goodies
 
 COPY mozilla-firefox /etc/apt/preferences.d/mozilla-firefox
 
