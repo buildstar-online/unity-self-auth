@@ -207,14 +207,18 @@ def main():
     and authorize a unity personal licesnse.
     """
     io.print_pretty('Starting...', True)
-    # Set if FireFox runs in headless mode
+    
+    io.print_pretty('Settig up the web driver...', True)
     opts = webdriver.FirefoxOptions()
     opts.binary_location = '/usr/bin/firefox-esr'
 
+    io.print_pretty('Determining headless status', True)
     headless = os.getenv('HEADLESS')
     if headless == True:
         opts.add_argument("-headless") 
         io.print_pretty('Using Headless Mode', True)
+    else:
+        io.print_pretty('Using Graphical Mode', True)
 
     # Instantiate the gekko driver
     driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', options=opts)
@@ -231,13 +235,14 @@ def main():
     settings = vars.settings
 
     # Perform authentication steps
-    io.print_pretty('Logging in...', debug)
+    io.print_pretty('Logging in...', True)
     login(driver, settings, debug)
     
     io.print_pretty('Uploading .alf file...', debug)
     unity_auth_upload(driver, settings, debug)
     
     # Wait for fileIO to complete
+    io.print_pretty('Saving data...', True)
     time.sleep(2.4)
     from pathlib import Path
     path_to_file = '/home/player1/Downloads/Unity_v2022.x.ulf'
