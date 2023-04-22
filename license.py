@@ -13,7 +13,6 @@ from selenium.webdriver.support import expected_conditions as ec
 import time
 
 tmp_file_dir = "html_reference"
-headless = os.getenv('HEADLESS')
 
 license_file = sys.argv[1]
 license_path = os.getcwd() + "/" + license_file
@@ -125,7 +124,7 @@ def unity_auth_upload(driver, settings, debug=False):
 
     # get the file upload element and pass it our license file
     # We have to do a sleep here or Unity will clear our inputs
-    time.sleep(20)
+    time.sleep(10)
     io.print_pretty('Looking for the upload field...', debug)
     print(driver.page_source)
     driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
@@ -212,6 +211,7 @@ def main():
     opts = webdriver.FirefoxOptions()
     opts.binary_location = '/usr/bin/firefox-esr'
 
+    headless = os.getenv('HEADLESS')
     if headless == True:
         opts.add_argument("-headless") 
         io.print_pretty('Using Headless Mode', True)
