@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as ec
 import time
 
 tmp_file_dir = "html_reference"
-headless=True
+headless = os.getenv('HEADLESS')
 
 license_file = sys.argv[1]
 license_path = os.getcwd() + "/" + license_file
