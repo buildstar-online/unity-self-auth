@@ -13,7 +13,8 @@ RUN apt-get update && yes |apt-get install -y sudo \
     xfce4-goodies \
     xinit \
     xterm \
-    xvfb
+    xvfb \
+    x11vnc
 
 COPY mozilla-firefox /etc/apt/preferences.d/mozilla-firefox
 
