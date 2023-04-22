@@ -49,7 +49,7 @@ docker run --rm -it --user 1000:1000 \
     --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/unity-self-auth/Downloads \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
-    $SLENIUM_IMAGE \
+    deserializeme/gcicudaseleniumxfce:latest \
     /bin/bash
 ```
  
