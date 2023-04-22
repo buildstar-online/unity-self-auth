@@ -28,6 +28,7 @@ mkdir -p Downloads && \
 touch Downloads/Unity_v${EDITOR_VERSION}.alf && \
 docker run --rm -it -v $(pwd):/home/player1 \
     -v $(pwd)/Downloads/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
+    --user root \
     $EDITOR_IMAGE \
     unity-editor -quit \
     -batchmode \
