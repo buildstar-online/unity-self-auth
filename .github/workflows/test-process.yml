@@ -67,8 +67,10 @@ jobs:
         run: |
           docker run --rm --mount type=bind,source=$(pwd)/Downloads,target=/home/player1/Downloads \
             --user 1000:1000 \
+            -p 5900:5900
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
+            -e HEADLESS=False \
             $SELENIUM_IMAGE \
             x11vnc --loop --create
         shell: bash
