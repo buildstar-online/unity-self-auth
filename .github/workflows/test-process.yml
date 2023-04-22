@@ -66,12 +66,14 @@ jobs:
             -p 5900:5900 \
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
-            -e HEADLESS=False \
+            -e HEADLESS=True \
             $SELENIUM_IMAGE \
-            x11vnc --loop --create
+            ./license.py Downloads/Unity_v$EDITOR_VERSION.alf
+            #x11vnc --loop --create
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
 
       - name: check
         run: |
