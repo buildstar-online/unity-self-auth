@@ -66,9 +66,8 @@ jobs:
             -p 5900:5900 \
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
-            -e HEADLESS=True \
-            $SELENIUM_IMAGE \
-            ./license.py Downloads/Unity_v$EDITOR_VERSION.alf
+            -e HEADLESS=False \
+            $SELENIUM_IMAGE ./license.py Downloads/Unity_v2022.1.23f1.alf
             #x11vnc --loop --create
         shell: bash
         env:
