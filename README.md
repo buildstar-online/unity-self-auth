@@ -49,6 +49,7 @@ docker run --rm -it --user 1000:1000 \
     --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/unity-self-auth/Downloads \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
+    -e HEADLESS="False" \
     deserializeme/gcicudaseleniumxfce:latest \
     /bin/bash
 ```
@@ -58,6 +59,7 @@ docker run --rm -it --mount type=bind,source="$(pwd)"/Downloads,target=/home/pla
     --user 1000:1000 \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
+    -e HEADLESS="True" 
     deserializeme/gcicudaselenium:xfce\
     /bin/bash
 ```
