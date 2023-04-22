@@ -54,10 +54,7 @@ jobs:
           
       - name: check
         run: |
-          ls -hal / && \
           ls -hal ./Downloads
-          #echo "reading alf..." && \
-          #cat ./Downloads/Unity_v$EDITOR_VERSION.alf
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
