@@ -69,7 +69,7 @@ jobs:
         run: |
           echo "reading ulf..."
           UNITY_LICENSE=$(cat *.ulf)
-          echo "$UNITY_LICENSE"
+          echo "::add-mask::$UNITY_LICENSE"
           echo UNITY_LICENSE=$UNITY_LICENSE >> $GITHUB_ENV
         shell: bash
         env:
@@ -85,8 +85,7 @@ jobs:
 
       - name: Return Secret as file
         run: |
-          echo "$UNITY_LICENSE" >> license.ulf
-          cat license.ulf
+          echo "$UNITY_LICENSE" > Unity_v2022.x.ulf
         shell: bash
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
