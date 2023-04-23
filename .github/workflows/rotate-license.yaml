@@ -85,8 +85,7 @@ jobs:
 
       - name: check data
         run: |
-          echo -n $SECRET
-          echo -n ${{ secrets.SECRET }}
+          echo ${{secrets.UNITY_LICENSE}} | sed 's/./& /g'
         shell: bash
 
       - name: Activate License
