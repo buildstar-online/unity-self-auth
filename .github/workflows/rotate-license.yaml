@@ -69,16 +69,17 @@ jobs:
         id: read-token
         run: |
           SECRET64=`cat *.ulf | base64 -w 0`
-          echo -n "UNITY_LICENSE=$SECRET64" >> $GITHUB_OUTPUT
+          echo -n "MY_SECRET=$SECRET64" >> $GITHUB_OUTPUT
         shell: bash
 
       - name: check data0
         run: |
-          echo $UNITY_LICENSE
+          echo $MY_SECRET
+        shell: bash
           
       - name: check data1
         run: |
-          echo -n ${{ secrets.UNITY_LICENSE }} |based64 --decode | sed 's/./& /g'
+          echo -n $SECRET64 |base64 --decode
           
       - name: Add License as a Github Actions Secret 
         uses: hmanzur/actions-set-secret@v2.0.0
