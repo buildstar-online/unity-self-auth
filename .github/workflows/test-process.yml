@@ -75,7 +75,7 @@ jobs:
             -batchmode \
             -nographics \
             -logFile /dev/stdout \
-            -manualLicenseFile /home/player1/Downloads/*.ulf
+            -manualLicenseFile /home/player1/Downloads/Unity_v2022.x.ulf
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
