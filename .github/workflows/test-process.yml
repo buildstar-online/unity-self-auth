@@ -75,7 +75,7 @@ jobs:
             -batchmode \
             -nographics \
             -logFile /dev/stdout \
-            -ManualActivationFile /home/player1/Downloads/*.ulf \
+            -ManualActivationFile *.ulf \
             -username ${{ secrets.UNITY_USERNAME }} \
             -password ${{ secrets.UNITY_PASSWORD }}
         shell: bash
