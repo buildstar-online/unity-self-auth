@@ -24,11 +24,10 @@ jobs:
         
       - name: setup
         run: |
-          mkdir -p ./Downloads && \
-          chown 1000:1000 ./Downloads \ 
-          touch ./Downloads/Unity_v$EDITOR_VERSION.alf && \
-          ls -hal / && \
-          ls -hal ./Downloads
+          mkdir -p $(pwd)/Downloads
+          chown 1000:1000 $(pwd)/Downloads
+          touch $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf && \
+          ls -hal $(pwd)/Downloads
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
