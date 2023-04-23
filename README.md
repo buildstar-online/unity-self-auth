@@ -16,7 +16,12 @@
 
     <img width="1491" alt="Screenshot 2023-04-23 at 15 33 11" src="https://user-images.githubusercontent.com/84841307/233842940-050d475f-2ce6-406e-a2d5-a54d17f8db9c.png">
 
-2. Copy and add the [example workflow](https://raw.githubusercontent.com/cloudymax/unity-self-auth/main/.github/workflows/example-licenses-pipeline.yml) to your own repo
+2. Copy and add the [example workflow](https://raw.githubusercontent.com/cloudymax/unity-self-auth/main/.github/workflows/example-licenses-pipeline.yml) to your own repo.
+
+4. Add the following secrets to the repo:
+  - `UNITY_USERNAME`: The email address or username for your Unity account
+  - `UNITY_PASSWORD`: Password for your Unity account.
+  - `PAT`: A personal access token that will be used to store the license as a repo secret.
 
 3. Run the workflow with your desired Editor Image and Editor Version (leave the selenium image as is).
 
