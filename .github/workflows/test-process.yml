@@ -17,7 +17,7 @@ on:
         default: '2022.1.23f1'
 jobs:
   test-auth:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
