@@ -1,6 +1,6 @@
 # Using seleium to authorize Unity Engine "Personal" licenses
 
-*It's still a work in progress*
+*It's still a work in progress, docs still being dogfooded*
 
 - Create a unity `ALF` then convert it to a `ULF` file automatically. 
 - Save your license file as a repo secret.
