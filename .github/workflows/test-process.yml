@@ -25,6 +25,7 @@ jobs:
       - name: setup
         run: |
           mkdir -p ./Downloads && \
+          chown 1000:1000 ./Downloads \ 
           touch ./Downloads/Unity_v$EDITOR_VERSION.alf && \
           ls -hal / && \
           ls -hal ./Downloads
@@ -59,7 +60,7 @@ jobs:
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             -e HEADLESS=True \
             $SELENIUM_IMAGE \
-            sudo chown player1:player1 /home/player1/Downloads && x11vnc --loop --create
+            x11vnc --loop --create
             #./license.py Downloads/*.alf
         shell: bash
         env:
