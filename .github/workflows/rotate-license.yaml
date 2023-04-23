@@ -68,6 +68,8 @@ jobs:
       - name: Store and Mask License Data
         run: |
           echo "::add-mask::$UNITY_LICENSE"
+          SECRET_BASE64=`cat *.ulf | base64 -w 0`
+          echo -n "SECRET=$SECRET_BASE64" >> $GITHUB_OUTPUT
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
@@ -77,7 +79,7 @@ jobs:
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'UNITY_LICENSE'
-          value: ${{ cat *.ulf }}
+          value: echo -n ${{needs.get-auth-token.outputs.SECRET}} | base64 --decode
           token: ${{ secrets.PAT }}
 
       - name: Return Secret as file
