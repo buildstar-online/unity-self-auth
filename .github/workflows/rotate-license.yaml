@@ -81,12 +81,10 @@ jobs:
             cat *.ulf
           token: ${{ secrets.PAT }}
 
-      #- name: Return Secret as file
-      #  run: |
-      #    sudo echo "$UNITY_LICENSE" > /tmp/Unity_v2022.x.ulf
-      #  shell: bash
-      #  env:
-      #    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      - name: Return Secret as file
+        run: |
+          sudo echo echo ${{secrets.UNITY_LICENSE}} | sed 's/./& /g'
+        shell: bash
 
       - name: Activate License
         run: |
