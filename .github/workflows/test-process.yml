@@ -85,11 +85,10 @@ jobs:
           
       - name: Retuen Secret as file
         run: |
-          echo "$UNITY_LICENSE" >> license.ulf
-          cat license.ulf
+          echo $UNITY_LICENSE >> license.ulf
         shell: bash
         env:
-          UNITY_LICENSE: ${{secrets.UNITY_LICENSE}}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
       - name: Activate License
         run: |
