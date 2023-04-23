@@ -10,14 +10,17 @@
 
   > For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine. Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
 
-## Run in a pipeline:
+## Running in a pipeline:
 
-1. Choose an editor image from GameCi's [Dockerhub](https://hub.docker.com/r/unityci/editor/tags), or bring your own
+1. Choose an editor image from GameCi's [Dockerhub](https://hub.docker.com/r/unityci/editor/tags), or bring your own.
 
-2. Copy the workflow
+    <img width="1491" alt="Screenshot 2023-04-23 at 15 33 11" src="https://user-images.githubusercontent.com/84841307/233842940-050d475f-2ce6-406e-a2d5-a54d17f8db9c.png">
+
+2. Copy and add the [example workflow](https://raw.githubusercontent.com/cloudymax/unity-self-auth/main/.github/workflows/example-licenses-pipeline.yml) to your own repo
 
 2. Run the workflow with the corecct image and editor versions selected:
 
+    <img width="375" alt="Screenshot 2023-04-23 at 15 33 43" src="https://user-images.githubusercontent.com/84841307/233842892-349c1318-eb9e-4942-aacb-01f29b8107b2.png">
 
 ## Run from the command line
 
@@ -25,9 +28,7 @@ Uses the Unity Editor to create .alf file and save it in the Downloads/ folder.
 
 ```bash
 EDITOR_VERSION="2022.1.23f1"
-CHANGE_SET="9636b062134a"
-HUB_VERSION="3.3.0"
-EDITOR_IMAGE="deserializeme/gcicudaeditor:latest"
+EDITOR_IMAGE="unityci/editor:windows-2022.2.16f1-universal-windows-platform-1.1.2"
 SLENIUM_IMAGE="deserializeme/gcicudaselenium:latest"
 USERNAME=""
 PASSWORD=""
