@@ -80,7 +80,7 @@ jobs:
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'UNITY_LICENSE'
-          value: $UNITY_LICENSE
+          value: echo "$UNITY_LICENSE"
           token: ${{ secrets.PAT }}
           
       - name: Return Secret as file
