@@ -25,7 +25,6 @@ jobs:
       - name: setup
         run: |
           mkdir -p $(pwd)/Downloads
-          chown 1000:1000 $(pwd)/Downloads
           touch $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf && \
           ls -hal $(pwd)/Downloads
         shell: bash
