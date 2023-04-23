@@ -71,14 +71,11 @@ jobs:
           docker run --rm -v $(pwd):/home/player1/Downloads \
             --user root \
             $EDITOR_IMAGE \
-            /bin/bash
-            #unity-editor -quit \
-            #-batchmode \
-            #-nographics \
-            #-logFile /dev/stdout \
-            #-ManualActivationFile /home/player1/Downloads/Unity_v2022.x.ulf \
-            #-username ${{ secrets.UNITY_USERNAME }} \
-            #-password ${{ secrets.UNITY_PASSWORD }}
+            unity-editor -quit \
+            -batchmode \
+            -nographics \
+            -logFile /dev/stdout \
+            -manualLicenseFile /home/player1/Downloads/*.ulf
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
