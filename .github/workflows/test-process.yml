@@ -58,10 +58,10 @@ jobs:
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             -e HEADLESS=True \
-            $SELENIUM_IMAGE ./license.py Downloads/*.alf
-            ls -hal Downloads
-            ls -hal /
-            ls -hal /home/player1/unity-self-auth/
+            $SELENIUM_IMAGE ./license.py Downloads/*.alf && \
+            ls -hal Downloads && \
+            ls -hal / && \
+            ls -hal /home/player1/unity-self-auth/ && \
             ls -hal /home
         shell: bash
         env:
