@@ -67,7 +67,6 @@ jobs:
 
       - name: Store and Mask License Data
         run: |
-          echo "reading ulf..."
           UNITY_LICENSE=$(cat *.ulf)
           echo "::add-mask::$UNITY_LICENSE"
           echo UNITY_LICENSE=$UNITY_LICENSE >> $GITHUB_ENV
@@ -93,7 +92,7 @@ jobs:
       - name: Activate License
         run: |
           ls -hal && \
-          docker run --rm -v $(pwd)/tmp/Unity_v2022.x.ulf:/home/player1/Unity_v2022.x.ulf \
+          docker run --rm -v /tmp/Unity_v2022.x.ulf:/home/player1/Unity_v2022.x.ulf \
             --user root \
             $EDITOR_IMAGE \
             unity-editor -quit \
