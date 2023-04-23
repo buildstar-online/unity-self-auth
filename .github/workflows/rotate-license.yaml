@@ -68,11 +68,9 @@ jobs:
       - name: Store and Mask License Data
         id: read-token
         run: |
-          echo "$UNITY_LICENSE"
-          SECRET_BASE64=`cat *.ulf | base64`
-          echo -n $SECRET_BASE64
+          SECRET_BASE64=`cat *.ulf`
           echo -n "SECRET=$SECRET_BASE64" >> $GITHUB_OUTPUT
-          echo $SECRET | base64 --decode
+          echo $SECRET
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
@@ -82,7 +80,7 @@ jobs:
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'UNITY_LICENSE'
-          value: echo -n $SECRET | base64 --decode
+          value: echo -n $SECRET
           token: ${{ secrets.PAT }}
 
       - name: check data
