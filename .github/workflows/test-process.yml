@@ -82,6 +82,14 @@ jobs:
           name: UNITY_LICENSE
           value: $UNITY_LICENSE
           pa_token: ${{ secrets.PAT }}
+          
+      - name: Retuen Secret as file
+        run: |
+          echo "$UNITY_LICENSE" >> license.ulf
+          cat license.ulf
+        shell: bash
+        env:
+          UNITY_LICENSE: ${{secrets.UNITY_LICENSE}}
 
       - name: Activate License
         run: |
@@ -93,7 +101,7 @@ jobs:
             -batchmode \
             -nographics \
             -logFile /dev/stdout \
-            -ManualActivationFile ${{ secrets.UNITY_LICENSE }} \
+            -ManualActivationFile license.ulf \
             -username ${{ secrets.UNITY_USERNAME }} \
             -password ${{ secrets.UNITY_PASSWORD }}
         shell: bash
