@@ -68,7 +68,7 @@ jobs:
       - name: Store and Mask License Data
         id: read-token
         run: |
-          SECRET_BASE64=`cat *.ulf`
+          SECRET_BASE64=$(cat *.ulf)
           echo -n "SECRET=$SECRET_BASE64" >> $GITHUB_OUTPUT
           echo $SECRET
         shell: bash
