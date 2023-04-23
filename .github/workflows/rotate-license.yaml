@@ -66,41 +66,8 @@ jobs:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
 
       - name: Store and Mask License Data
-        id: read-token
         run: |
-          SECRET64=`cat *.ulf | base64 -w 0`
-          echo -n "MY_SECRET=$SECRET64" >> $GITHUB_OUTPUT
+          cat *.ulf
         shell: bash
 
-      - name: check data0
-        run: |
-          echo $MY_SECRET
-        shell: bash
-          
-      - name: check data1
-        run: |
-          echo -n $SECRET64 |base64 --decode
-          
-      - name: Add License as a Github Actions Secret 
-        uses: hmanzur/actions-set-secret@v2.0.0
-        with:
-          name: 'UNITY_LICENSE'
-          value: echo -n $SECRET
-          token: ${{ secrets.PAT }}
-
-      - name: Activate License
-        run: |
-          ls -hal && \
-          docker run --rm -v $(pwd):/home/player1/Downloads \
-            --user root \
-            $EDITOR_IMAGE \
-            unity-editor -quit \
-            -batchmode \
-            -nographics \
-            -logFile /dev/stdout \
-            -manualLicenseFile /home/player1/Downloads/license.ulf
-        shell: bash
-        env:
-          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
-          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
           
