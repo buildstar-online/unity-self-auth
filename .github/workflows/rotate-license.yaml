@@ -66,6 +66,7 @@ jobs:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
 
       - name: Store and Mask License Data
+        id: read-token
         run: |
           echo "::add-mask::$UNITY_LICENSE"
           SECRET_BASE64=`cat *.ulf | base64 -w 0`
@@ -79,7 +80,7 @@ jobs:
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'UNITY_LICENSE'
-          value: echo -n ${{needs.get-auth-token.outputs.SECRET}} | base64 --decode
+          value: echo -n ${{ needs.read-token.outputs.SECRET }} | base64 --decode
           token: ${{ secrets.PAT }}
 
       - uses: joutvhu/write-file@v1
