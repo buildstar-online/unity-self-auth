@@ -59,7 +59,7 @@ jobs:
             -e HEADLESS=True \
             $SELENIUM_IMAGE \
             #x11vnc --loop --create -geometry 1024x768
-            ./license.py /tmp/Downloads/*.alf
+            ./license.py ../Downloads/*.alf
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
