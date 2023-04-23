@@ -33,7 +33,7 @@ jobs:
           
       - name: Generate alf
         run: |
-          docker run --rm -v $(pwd)/Unity_v$EDITOR_VERSION.alf:/Unity_v$EDITOR_VERSION.alf \
+          docker run --rm -v $(pwd)/Unity_v$EDITOR_VERSION.alf:/home/player1/unity-self-auth/Unity_v$EDITOR_VERSION.alf \
             --user root \
             $EDITOR_IMAGE \
             unity-editor -quit \
@@ -50,7 +50,7 @@ jobs:
           
       - name: Generate ulf
         run: |
-          docker run --rm -v $(pwd)/Unity_v$EDITOR_VERSION.alf:/Unity_v$EDITOR_VERSION.alf \
+          docker run --rm -v $(pwd)/Unity_v$EDITOR_VERSION.alf:/home/player1/unity-self-auth/Unity_v$EDITOR_VERSION.alf \
             --mount type=bind,source=$(pwd)/Downloads,target=/home/player1/unity-self-auth/Downloads \
             --user 1000:1000 \
             -p 5900:5900 \
