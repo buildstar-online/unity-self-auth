@@ -69,7 +69,7 @@ jobs:
         run: |
           echo "reading ulf..."
           UNITY_LICENSE=$(cat *.ulf)
-          echo "::add-mask::$UNITY_LICENSE"
+          echo "$UNITY_LICENSE"
           echo UNITY_LICENSE=$UNITY_LICENSE >> $GITHUB_ENV
         shell: bash
         env:
