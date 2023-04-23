@@ -67,7 +67,7 @@ jobs:
 
       - name: Store and Mask License Data
         run: |
-          cat *.ulf
+          cat *.ulf |base64 -w 0
         shell: bash
 
           
