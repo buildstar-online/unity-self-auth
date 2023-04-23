@@ -58,8 +58,8 @@ jobs:
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             -e HEADLESS=True \
             $SELENIUM_IMAGE \
-            #x11vnc --loop --create -geometry 1024x768
             ./license.py ../Downloads/Unity_v$EDITOR_VERSION.alf
+            ##x11vnc --loop --create -geometry 1024x768
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
