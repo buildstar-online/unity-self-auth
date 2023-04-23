@@ -61,7 +61,8 @@ jobs:
             $SELENIUM_IMAGE ./license.py Downloads/*.alf
             ls -hal Downloads
             ls -hal /
-            ls -hal /home/player1
+            ls -hal /home/player1/unity-self-auth/
+            ls -hal /home
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
