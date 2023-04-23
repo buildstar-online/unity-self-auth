@@ -3,7 +3,8 @@
 *It's still a work in progress*
 
 - Create a unity `ALF` then convert it to a `ULF` file automatically. 
-- Built with Docker so it can be easily run on your local machine or in a pipeline
+- Save your license file as a repo secret.
+- Built with Docker so it can be easily run on your local machine or in a pipeline.
 - Works with the standard GameCI Editor images on [Dockerhub](https://hub.docker.com/r/unityci/editor/tags)
 
 
