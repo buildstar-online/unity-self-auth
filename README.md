@@ -18,7 +18,7 @@
 
 2. Copy and add the [example workflow](https://raw.githubusercontent.com/cloudymax/unity-self-auth/main/.github/workflows/example-licenses-pipeline.yml) to your own repo
 
-2. Run the workflow with the corecct image and editor versions selected:
+3. Run the workflow with your desired Editor Image and Editor Version (leave the selenium image as is).
 
     <img width="375" alt="Screenshot 2023-04-23 at 15 33 43" src="https://user-images.githubusercontent.com/84841307/233842892-349c1318-eb9e-4942-aacb-01f29b8107b2.png">
 
