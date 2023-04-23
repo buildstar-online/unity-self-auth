@@ -69,7 +69,7 @@ jobs:
         run: |
           echo "reading ulf..."
           UNITY_LICENSE=$(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)
-          echo "::add-mask::$UNITY_LICENSE"
+          ####echo "::add-mask::$UNITY_LICENSE"
           echo UNITY_LICENSE=$UNITY_LICENSE >> $GITHUB_ENV
         shell: bash
         env:
@@ -80,10 +80,12 @@ jobs:
         uses: gliech/create-github-secret-action@v1
         with:
           name: UNITY_LICENSE
-          value: $(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)
+          value: $UNITY_LICENSE
           pa_token: ${{ secrets.PAT }}
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
           
-      - name: Retuen Secret as file
+      - name: Return Secret as file
         run: |
           echo "$UNITY_LICENSE" >> license.ulf
         shell: bash
