@@ -69,7 +69,7 @@ jobs:
         run: |
           echo "reading ulf..."
           UNITY_LICENSE=$(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)
-          ####echo "::add-mask::$UNITY_LICENSE"
+          echo "::add-mask::$UNITY_LICENSE"
           echo UNITY_LICENSE=$UNITY_LICENSE >> $GITHUB_ENV
         shell: bash
         env:
@@ -77,13 +77,11 @@ jobs:
           EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
           
       - name: Add License as a Github Actions Secret 
-        uses: gliech/create-github-secret-action@v1
+        uses: hmanzur/actions-set-secret@v2.0.0
         with:
-          name: UNITY_LICENSE
+          name: 'UNITY_LICENSE'
           value: $UNITY_LICENSE
-          pa_token: ${{ secrets.PAT }}
-        env:
-          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          token: ${{ secrets.PAT }}
           
       - name: Return Secret as file
         run: |
