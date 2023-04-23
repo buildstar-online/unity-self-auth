@@ -24,10 +24,10 @@ PASSWORD=""
 docker pull $EDITOR_IMAGE
 docker pull $SLENIUM_IMAGE
 
-mkdir -p Downloads && \
-touch Downloads/Unity_v${EDITOR_VERSION}.alf && \
-docker run --rm -it -v $(pwd):/home/player1 \
-    -v $(pwd)/Downloads/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
+chown 1000:1000 .
+touch Unity_v${EDITOR_VERSION}.alf
+
+docker run --rm -it -v $(pwd)/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
     --user root \
     $EDITOR_IMAGE \
     unity-editor -quit \
@@ -42,20 +42,22 @@ docker run --rm -it -v $(pwd):/home/player1 \
 ## ULF file creation
 
 Mounts the Downloads/ folder and tries to convert the .alf file to a .ulf license.
- 
+
+With graphical output over vnc:
 ```bash
 docker run --rm -it --user 1000:1000 \
     -p 5900:5900 \
-    --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/unity-self-auth/Downloads \
+    --mount type=bind,source="$(pwd)",target=/home/player1/unity-self-auth/Downloads \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
     -e HEADLESS="False" \
     deserializeme/gcicudaseleniumxfce:latest \
-    /bin/bash
+    x11vnc --create --loop
 ```
- 
+
+Headless:
 ```bash
-docker run --rm -it --mount type=bind,source="$(pwd)"/Downloads,target=/home/player1/unity-self-auth/Downloads \
+docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/player1/Downloads \
     --user 1000:1000 \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
@@ -64,13 +66,17 @@ docker run --rm -it --mount type=bind,source="$(pwd)"/Downloads,target=/home/pla
     /bin/bash
 ```
 
-## test activation
+## Test activation
 
 ```bash
 docker run --rm -it --mount type=bind,source=$(pwd),target=/home/player1/Downloads \
     --user root \
     $EDITOR_IMAGE \
-    /bin/bash
+    unity-editor -quit \
+    -batchmode \
+    -nographics \
+    -logFile /dev/stdout \
+    -manualLicenseFile /home/player1/Downloads/*.ulf
 ```
 ____________________________________________________
 
