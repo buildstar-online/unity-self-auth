@@ -53,7 +53,7 @@ jobs:
       - name: Generate ulf
         run: |
           docker run --rm --mount type=bind,source=$(pwd)/Downloads,target=/home/player1/unity-self-auth/Downloads \
-            --user 1000:1000 \
+            --user root \
             -p 5900:5900 \
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
