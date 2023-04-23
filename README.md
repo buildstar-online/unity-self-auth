@@ -1,14 +1,25 @@
 # Using seleium to authorize Unity Engine "Personal" licenses
 
-**This project is a work in progress**
+- Create a unity `ALF` then convert it to a `ULF` file automatically. 
+- Built with Docker so it can be easily run on your local machine or in a pipeline
+- Works with the standard GameCI Editor images on [Dockerhub](https://hub.docker.com/r/unityci/editor/tags)
 
-1. You will likely encounter issues with ULF file creation if running from a machine in a region other than the one you have chosen for your unity account. For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine. Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
 
-2. Regualr GameCI images are not yet supported.
- 
-3. Only Editor-Version `2022.1.23f1` is supported at the moment
- 
-## ALF file creation
+## Known Issues:
+- ULF file creation will fail if login is blocked by a 2factor challange. Running from a machine in a region other than the one you have chosen for your unity account will trigger such an event. 
+
+  > For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine. Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
+
+## Run in a pipeline:
+
+1. Choose an editor image from GameCi's [Dockerhub](https://hub.docker.com/r/unityci/editor/tags), or bring your own
+
+2. Copy the workflow
+
+2. Run the workflow with the corecct image and editor versions selected:
+
+
+## Run from the command line
 
 Uses the Unity Editor to create .alf file and save it in the Downloads/ folder.
 
