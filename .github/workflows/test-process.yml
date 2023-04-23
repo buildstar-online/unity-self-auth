@@ -59,7 +59,7 @@ jobs:
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             -e HEADLESS=True \
             $SELENIUM_IMAGE \
-            x11vnc --loop --create
+            sudo chown player1:player1 /home/player1/Downloads && x11vnc --loop --create
             #./license.py Downloads/*.alf
         shell: bash
         env:
