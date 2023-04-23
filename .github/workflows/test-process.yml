@@ -73,11 +73,12 @@ jobs:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
 
-      - name: Store License Data
+      - name: Store and Mask License Data
         run: |
-          echo "reading ulf..." && \
-          echo "UNITY_LICENSE=$(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)" >> $GITHUB_ENV && \
+          echo "reading ulf..."
+          UNITY_LICENSE=$(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)
           echo "::add-mask::$UNITY_LICENSE"
+          echo UNITY_LICENSE=$UNITY_LICENSE >> $GITHUB_ENV
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
