@@ -63,6 +63,15 @@ docker run --rm -it --mount type=bind,source="$(pwd)"/Downloads,target=/home/pla
     deserializeme/gcicudaselenium:xfce\
     /bin/bash
 ```
+
+## test activation
+
+```bash
+docker run --rm -it --mount type=bind,source=$(pwd),target=/home/player1/Downloads \
+    --user root \
+    $EDITOR_IMAGE \
+    /bin/bash
+```
 ____________________________________________________
 
 ## Maintenance
