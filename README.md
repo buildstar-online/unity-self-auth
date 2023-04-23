@@ -23,22 +23,23 @@
     <img width="375" alt="Screenshot 2023-04-23 at 15 33 43" src="https://user-images.githubusercontent.com/84841307/233842892-349c1318-eb9e-4942-aacb-01f29b8107b2.png">
 
 ## Run from the command line
-
-Uses the Unity Editor to create .alf file and save it in the Downloads/ folder.
-
 ```bash
+# Create a temporary directoy to work in
+mkdir -p /tmp/scratch
+cd /tmp/scratch
+
+# Export important variables
 EDITOR_VERSION="2022.1.23f1"
 EDITOR_IMAGE="unityci/editor:windows-2022.2.16f1-universal-windows-platform-1.1.2"
 SLENIUM_IMAGE="deserializeme/gcicudaselenium:latest"
-USERNAME=""
-PASSWORD=""
+USERNAME="YOUR_EMAIL_HERE"
+PASSWORD="YOUR_PASSWORD_HERE"
 
-docker pull $EDITOR_IMAGE
-docker pull $SLENIUM_IMAGE
-
+# Change ownership of local dir so the container user can save data to mounted volumes
 chown 1000:1000 .
 touch Unity_v${EDITOR_VERSION}.alf
 
+# Generate the ALF file using the Editor 
 docker run --rm -it -v $(pwd)/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
     --user root \
     $EDITOR_IMAGE \
@@ -49,36 +50,32 @@ docker run --rm -it -v $(pwd)/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERS
     -createManualActivationFile \
     -username "$USERNAME" \
     -password "$PASSWORD"
-```
 
-## ULF file creation
+## Generate the ULF file via Selenium + Firefox
 
-Mounts the Downloads/ folder and tries to convert the .alf file to a .ulf license.
-
-With graphical output over vnc:
-```bash
 docker run --rm -it --user 1000:1000 \
-    -p 5900:5900 \
     --mount type=bind,source="$(pwd)",target=/home/player1/unity-self-auth/Downloads \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
-    -e HEADLESS="False" \
-    deserializeme/gcicudaseleniumxfce:latest \
+    -e HEADLESS="True" \
+    $SLENIUM_IMAGE \
     x11vnc --create --loop
 ```
 
-Headless:
+## You can also run graphical session over VNC if desired
+
 ```bash
 docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/player1/Downloads \
     --user 1000:1000 \
+    -p 5900:5900 \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
-    -e HEADLESS="True" 
-    deserializeme/gcicudaselenium:xfce\
-    /bin/bash
+    -e HEADLESS="False" 
+    deserializeme/gcicudaseleniumxfce:latest \
+    x11vnc --loop --create
 ```
 
-## Test activation
+## Testing activation
 
 ```bash
 docker run --rm -it --mount type=bind,source=$(pwd),target=/home/player1/Downloads \
@@ -90,25 +87,5 @@ docker run --rm -it --mount type=bind,source=$(pwd),target=/home/player1/Downloa
     -logFile /dev/stdout \
     -manualLicenseFile /home/player1/Downloads/*.ulf
 ```
-____________________________________________________
-
-## Maintenance
-
-configuration_settings:
-
-- elements: the names of html elements to search for
-- urls: the web urls of pages to load
-- radio buttons: button selection options + xpaths
-
-html_references:
-
-- where I save out html copies of the websites so you can sanity-check the search params if needed in case they change down the line
 
 
-<!--  Link References -->
-[Bitwarden CLI]: https://github.com/bitwarden/cli "check out bitwarden-cli on github"
-[Github Secrets]: https://cli.github.com/manual/gh_secret "Use gh cli to set, list, and delete secrets"
-[Gitlab Variables]: https://gitlab.com/gitlab-org/cli/-/tree/main/docs/source "Use the gitlab cli to add, remove, and list Gitlab Variables"
-[Install the Bitwarden CLI]: https://bitwarden.com/help/cli/ "Visit the Bitwarden installation docs"
-[Install the Gitlab CLI]: https://gitlab.com/gitlab-org/cli "Visit the Gitlab CLI docs"
-[Install the Github CLI]: https://cli.github.com/ "Visit the Githubcli homepage"
