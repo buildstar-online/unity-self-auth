@@ -75,7 +75,7 @@ jobs:
             -batchmode \
             -nographics \
             -logFile /dev/stdout \
-            -ManualActivationFile *.ulf \
+            -ManualActivationFile ../Downloads/Unity_v2022.x.ulf \
             -username ${{ secrets.UNITY_USERNAME }} \
             -password ${{ secrets.UNITY_PASSWORD }}
         shell: bash
