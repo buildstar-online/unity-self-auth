@@ -33,7 +33,7 @@ jobs:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
           EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
           
-      - name: generate alf
+      - name: Generate alf
         run: |
           ls -hal && \
           docker run --rm -v $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
@@ -51,15 +51,7 @@ jobs:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
           EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
           
-      - name: check
-        run: |
-          ls -hal ./Downloads
-        shell: bash
-        env:
-          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
-          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
-          
-      - name: generate ulf
+      - name: Generate ulf
         run: |
           docker run --rm --mount type=bind,source=$(pwd)/Downloads,target=/home/player1/unity-self-auth/Downloads \
             --user 1000:1000 \
@@ -84,8 +76,28 @@ jobs:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
           EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
           
-      - uses: gliech/create-github-secret-action@v1
+      - name: Add License as a Github Actions Secret 
+        uses: gliech/create-github-secret-action@v1
         with:
           name: UNITY_LICENSE
           value: $UNITY_LICENSE
           pa_token: ${{ secrets.PAT }}
+
+      - name: Activate License
+        run: |
+          ls -hal && \
+          docker run --rm -v $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
+            --user root \
+            $EDITOR_IMAGE \
+            unity-editor -quit \
+            -batchmode \
+            -nographics \
+            -logFile /dev/stdout \
+            -ManualActivationFile ${{ secrets.UNITY_LICENSE }} \
+            -username ${{ secrets.UNITY_USERNAME }} \
+            -password ${{ secrets.UNITY_PASSWORD }}
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
+          
