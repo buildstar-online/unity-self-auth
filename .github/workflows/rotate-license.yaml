@@ -82,10 +82,12 @@ jobs:
           value: echo -n ${{needs.get-auth-token.outputs.SECRET}} | base64 --decode
           token: ${{ secrets.PAT }}
 
-      - name: Return Secret as file
-        run: |
-          sudo echo echo ${{secrets.UNITY_LICENSE}} | sed 's/./& /g'
-        shell: bash
+      - name: Decode secret
+        uses: davidSchuppa/base64Secret-toFile-action@v1
+        with:
+          secret: ${{ secrets.UNITY_LICENSE }}
+          filename: license.ulf
+          destination-path: ./license.ulf
 
       - name: Activate License
         run: |
@@ -97,7 +99,7 @@ jobs:
             -batchmode \
             -nographics \
             -logFile /dev/stdout \
-            -manualLicenseFile /home/player1/Downloads/Unity_v2022.x.ulf
+            -manualLicenseFile /home/player1/Downloads/license.ulf
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
