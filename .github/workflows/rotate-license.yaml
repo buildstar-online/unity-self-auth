@@ -68,24 +68,24 @@ jobs:
       - name: Store and Mask License Data
         id: read-token
         run: |
-          SECRET_BASE64=$(cat *.ulf)
-          echo -n "SECRET=$SECRET_BASE64" >> $GITHUB_OUTPUT
-          echo $SECRET
+          SECRET64=`cat *.ulf | base64 -w 0`
+          echo -n "UNITY_LICENSE=$SECRET64" >> $GITHUB_OUTPUT
         shell: bash
-        env:
-          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
-          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
 
+      - name: check data0
+        run: |
+          echo $UNITY_LICENSE
+          
+      - name: check data1
+        run: |
+          echo -n ${{ secrets.UNITY_LICENSE }} |based64 --decode | sed 's/./& /g'
+          
       - name: Add License as a Github Actions Secret 
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'UNITY_LICENSE'
           value: echo -n $SECRET
           token: ${{ secrets.PAT }}
-
-      - name: check data
-        run: |
-          echo -n ${{ secrets.UNITY_LICENSE }} | sed 's/./& /g'
 
       - name: Activate License
         run: |
