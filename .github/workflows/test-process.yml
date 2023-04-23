@@ -59,7 +59,7 @@ jobs:
             -e HEADLESS=True \
             $SELENIUM_IMAGE \
             ./license.py ../Downloads/Unity_v$EDITOR_VERSION.alf
-            ##x11vnc --loop --create -geometry 1024x768
+            ##x11vnc --loop --create
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
@@ -71,13 +71,14 @@ jobs:
           docker run --rm -v $(pwd):/home/player1/Downloads \
             --user root \
             $EDITOR_IMAGE \
-            unity-editor -quit \
-            -batchmode \
-            -nographics \
-            -logFile /dev/stdout \
-            -ManualActivationFile /home/player1/Downloads/Unity_v2022.x.ulf \
-            -username ${{ secrets.UNITY_USERNAME }} \
-            -password ${{ secrets.UNITY_PASSWORD }}
+            /bin/bash
+            #unity-editor -quit \
+            #-batchmode \
+            #-nographics \
+            #-logFile /dev/stdout \
+            #-ManualActivationFile /home/player1/Downloads/Unity_v2022.x.ulf \
+            #-username ${{ secrets.UNITY_USERNAME }} \
+            #-password ${{ secrets.UNITY_PASSWORD }}
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
