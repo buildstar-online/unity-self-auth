@@ -106,7 +106,7 @@ def login(driver, settings, debug=False):
 
     # click the login button
     io.print_pretty('Click the Login Button...', debug)
-    wait = WebDriverWait(driver, 20)
+    wait = WebDriverWait(driver, 10)
     button_name = settings['config']['login_button']
     login_button = element_by_xpath(driver, button_name)
     click_on_ready(driver, login_button, debug)
@@ -124,7 +124,7 @@ def unity_auth_upload(driver, settings, debug=False):
 
     # get the file upload element and pass it our license file
     # We have to do a sleep here or Unity will clear our inputs
-    time.sleep(10)
+    time.sleep(5)
     io.print_pretty('Looking for the upload field...', debug)
     print(driver.page_source)
     driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
@@ -236,10 +236,10 @@ def main():
     settings = vars.settings
 
     # Perform authentication steps
-    io.print_pretty('Logging in...', True)
+    io.print_pretty('Starting Login process...', True)
     login(driver, settings, debug)
     
-    io.print_pretty('Uploading .alf file...', debug)
+    io.print_pretty('Starting licensing process...', debug)
     unity_auth_upload(driver, settings, debug)
     
     # Wait for fileIO to complete
