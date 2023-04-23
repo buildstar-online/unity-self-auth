@@ -80,12 +80,12 @@ jobs:
         uses: gliech/create-github-secret-action@v1
         with:
           name: UNITY_LICENSE
-          value: $UNITY_LICENSE
+          value: $(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)
           pa_token: ${{ secrets.PAT }}
           
       - name: Retuen Secret as file
         run: |
-          echo $UNITY_LICENSE >> license.ulf
+          echo "$UNITY_LICENSE" >> license.ulf
         shell: bash
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
