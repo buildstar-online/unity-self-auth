@@ -76,8 +76,8 @@ jobs:
       - name: Store License Data
         run: |
           echo "reading ulf..." && \
+          echo "UNITY_LICENSE=$(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)" >> $GITHUB_ENV && \
           echo "::add-mask::$UNITY_LICENSE"
-          echo "UNITY_LICENSE=$(cat ./Downloads/Unity_v$EDITOR_VERSION.alf)" >> $GITHUB_ENV
         shell: bash
         env:
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
