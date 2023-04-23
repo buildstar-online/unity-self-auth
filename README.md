@@ -67,7 +67,7 @@ docker run --rm -it --user 1000:1000 \
     -e PASSWORD="$PASSWORD" \
     -e HEADLESS="True" \
     $SLENIUM_IMAGE \
-    x11vnc --create --loop
+    ./license.py ../Downloads/Unity_v${EDITOR_VERSION}.alf
 ```
 
 ## You can also run graphical session over VNC if desired
