@@ -24,7 +24,7 @@ jobs:
         
       - name: setup
         run: |
-          chown 1000:1000 .
+          sudo chown 1000:1000 .
           touch Unity_v$EDITOR_VERSION.alf
           ls -hal .
         shell: bash
