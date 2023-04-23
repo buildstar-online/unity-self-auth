@@ -67,7 +67,7 @@ jobs:
 
       - name: Store and Mask License Data
         run: |
-          echo "ULF=`cat *.ulf |base64 -w 0`" >> $$GITHUB_ENV
+          echo "ULF=$(cat *.ulf |base64 -w 0)" >> $$GITHUB_ENV
         shell: bash
 
       - name: Check data
