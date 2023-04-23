@@ -35,7 +35,6 @@ jobs:
           
       - name: Generate alf
         run: |
-          ls -hal && \
           docker run --rm -v $(pwd)/Downloads/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
             --user root \
             $EDITOR_IMAGE \
@@ -60,6 +59,7 @@ jobs:
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
             -e HEADLESS=True \
             $SELENIUM_IMAGE ./license.py Downloads/Unity_v2022.1.23f1.alf
+            ls -hal Downloads
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
@@ -75,7 +75,7 @@ jobs:
             -batchmode \
             -nographics \
             -logFile /dev/stdout \
-            -ManualActivationFile Downloads/Unity_v$EDITOR_VERSION.alf \
+            -ManualActivationFile Downloads/*.ulf \
             -username ${{ secrets.UNITY_USERNAME }} \
             -password ${{ secrets.UNITY_PASSWORD }}
         shell: bash
