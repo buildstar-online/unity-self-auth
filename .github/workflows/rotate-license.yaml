@@ -83,11 +83,10 @@ jobs:
           value: echo -n ${{ needs.read-token.outputs.SECRET }} | base64 --decode
           token: ${{ secrets.PAT }}
 
-      - uses: joutvhu/write-file@v1
-        with:
-          path: license.ulf
-          contents: ${{ secrets.UNITY_LICENSE }}
-          write_mode: overwrite
+      - name: check data
+        run: |
+          echo -n ${{ needs.read-token.outputs.SECRET }} | base64 --decode
+        shell: bash
 
       - name: Activate License
         run: |
