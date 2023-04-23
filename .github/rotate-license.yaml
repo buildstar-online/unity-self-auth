@@ -1,0 +1,106 @@
+
+name: Rotate License
+on:
+  workflow_dispatch:
+    inputs:
+      editor_image:
+        description: 'Editor Image'
+        required: true
+        default: 'deserializeme/gcicudaeditor:latest'
+      selenium_image:
+        description: 'Selenium Image'
+        required: true
+        default: 'deserializeme/gcicudaseleniumxfce:latest'
+      editor_version:
+        description: 'Editor Version'
+        required: true
+        default: '2022.1.23f1'
+jobs:
+  test-auth:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: setup
+        run: |
+          touch Unity_v$EDITOR_VERSION.alf
+          sudo chown 1000:1000 .
+          ls -hal .
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
+          
+      - name: Generate alf
+        run: |
+          docker run --rm -v $(pwd)/Unity_v$EDITOR_VERSION.alf:/Unity_v${EDITOR_VERSION}.alf \
+            --user root \
+            $EDITOR_IMAGE \
+            unity-editor -quit \
+            -batchmode \
+            -nographics \
+            -logFile /dev/stdout \
+            -createManualActivationFile \
+            -username ${{ secrets.UNITY_USERNAME }} \
+            -password ${{ secrets.UNITY_PASSWORD }}
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
+          
+      - name: Generate ulf
+        run: |
+          docker run --rm --mount type=bind,source=$(pwd),target=/home/player1/Downloads \
+            --user 1000:1000 \
+            -p 5900:5900 \
+            -e USERNAME=${{ secrets.UNITY_USERNAME }} \
+            -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
+            -e HEADLESS=True \
+            $SELENIUM_IMAGE \
+            ./license.py ../Downloads/Unity_v$EDITOR_VERSION.alf
+            ##x11vnc --loop --create
+        shell: bash
+        env:
+          SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+
+      - name: Store and Mask License Data
+        run: |
+          echo "::add-mask::$UNITY_LICENSE"
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
+
+      - name: Add License as a Github Actions Secret 
+        uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'UNITY_LICENSE'
+          value: |
+            cat *.ulf
+          token: ${{ secrets.PAT }}
+
+      #- name: Return Secret as file
+      #  run: |
+      #    sudo echo "$UNITY_LICENSE" > /tmp/Unity_v2022.x.ulf
+      #  shell: bash
+      #  env:
+      #    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+      - name: Activate License
+        run: |
+          ls -hal && \
+          docker run --rm -v $(pwd):/home/player1/Downloads \
+            --user root \
+            $EDITOR_IMAGE \
+            unity-editor -quit \
+            -batchmode \
+            -nographics \
+            -logFile /dev/stdout \
+            -manualLicenseFile /home/player1/Downloads/Unity_v2022.x.ulf
+        shell: bash
+        env:
+          EDITOR_VERSION: ${{github.event.inputs.editor_version}}
+          EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
+          
