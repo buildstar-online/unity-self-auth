@@ -1,12 +1,16 @@
 # Using seleium to authorize Unity Engine "Personal" licenses
 
-*It's still a work in progress, docs still being dogfooded*
 
 - Create a unity `ALF` then convert it to a `ULF` file automatically. 
 - Save your license file as a repo secret.
 - Built with Docker so it can be easily run on your local machine or in a pipeline.
 - Works with the standard GameCI Editor images on [Dockerhub](https://hub.docker.com/r/unityci/editor/tags)
 
+## This project is a work in-progress, specifically regarding:
+- Documentation is still being actively tested for accuracy
+- Tests for the python code still need to be written
+- Rotating the License automatically via Github Actions is still in testing due to challenges properly obscuring sensitive data in the worflow logs.
+- Selenium script uses explicit sleep/wait calls between page loads which need to be replaces with some smarter "while/until" logic.
 
 ## Known Issues:
 - ULF file creation will fail if login is blocked by a 2factor challange. Running from a machine in a region other than the one you have chosen for your unity account will trigger such an event. 
