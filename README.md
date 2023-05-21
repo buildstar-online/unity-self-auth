@@ -82,7 +82,7 @@ docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/player1/Downl
     -p 5900:5900 \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
-    -e HEADLESS="False" 
+    -e HEADLESS="False" \
     deserializeme/gcicudaseleniumxfce:latest \
     x11vnc --loop --create
 ```
