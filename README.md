@@ -42,7 +42,7 @@ cd /tmp/scratch
 
 # Export important variables
 EDITOR_VERSION="2022.1.23f1"
-EDITOR_IMAGE="unityci/editor:windows-2022.2.16f1-universal-windows-platform-1.1.2"
+EDITOR_IMAGE="udeserializeme/gcicudaeditor:latest"
 SLENIUM_IMAGE="deserializeme/gcicudaselenium:latest"
 USERNAME="YOUR_EMAIL_HERE"
 PASSWORD="YOUR_PASSWORD_HERE"
