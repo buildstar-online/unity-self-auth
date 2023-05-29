@@ -1,4 +1,4 @@
-pygments
-dictor
-selenium
-deepdiff
+deepdiff==4.0.2
+dictor==0.1.11
+Pygments==2.14.0
+selenium==3.141.0
