@@ -30,13 +30,29 @@ class config():
     urls = {}
 
 
+def element_by_name(driver, name, debug=False):
+    """
+    This function will search for a webElement by it's name
+    """
+    try:
+        wait = WebDriverWait(driver, timeout=10)
+        element = driver.find_elements(By.NAME, name)
+        io.print_pretty(f"found {element} using the path: {name}", debug)
+        return element[0]
+    except Exception as err:
+        io.print_pretty(f"cant find the element w/ name {name}", True)
+        print_page(driver, "element_by_name_error")
+        print(err)
+        return err
+
+
 def element_by_xpath(driver, xpath, debug=False):
     """
     This function will search for a webElement by it's Xpath
     """
     try:
-        wait = WebDriverWait(driver, timeout=10)
-        element = driver.find_elements(By.XPATH, xpath)
+        element = WebDriverWait(driver, 10).until(
+            ec.presence_of_element_located((By.XPATH, xpath)))
         io.print_pretty(f"found {element} using the path: {xpath}", debug)
         return element[0]
     except Exception as err:
@@ -69,7 +85,7 @@ def click_on_ready(driver, element, debug=True):
     """
     try:
         wait = WebDriverWait(driver, 10)
-        wait.until(ec.element_to_be_clickable(element))
+        wait.until(ec.element_to_be_clickable(element)).send_keys('10000')
         element.click()
         io.print_pretty(f"click successful on element {element}", True)
     except Exception as err:
@@ -104,12 +120,19 @@ def login(driver, settings, debug=False):
     password_element = element_by_id(driver, psw_element, debug)
     password_element.send_keys(psw)
 
-    # click the login button
-    io.print_pretty('Click the Login Button...', debug)
+    # Find the login button
+    io.print_pretty('Finding the Login Button...', debug)
     wait = WebDriverWait(driver, 5)
-    button_name = settings['config']['login_button']
-    login_button = element_by_xpath(driver, button_name)
-    click_on_ready(driver, login_button, debug)
+
+    # Try to find by xpath (seems broken as of 29/05/2023)
+    # use find by name instead
+    #button_name = settings['config']['login_button']
+    #login_button = element_by_xpath(driver, button_name, debug)
+    #click_on_ready(driver, login_button, debug)
+
+    # Alternatively, find by by name
+    login_button = element_by_name(driver, "commit")
+    click_only(driver, login_button)
 
 
 def unity_auth_upload(driver, settings, debug=False):
@@ -121,12 +144,14 @@ def unity_auth_upload(driver, settings, debug=False):
     # get the liscence activation page
     io.print_pretty('Load the License Activation Page...', debug)
     driver.get(settings['urls']['license'])
+    # driver.get('about:profiles')
 
     # get the file upload element and pass it our license file
     # We have to do a sleep here or Unity will clear our inputs
-    time.sleep(5)
+    time.sleep(7)
     io.print_pretty('Looking for the upload field...', debug)
     driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
+
     io.print_pretty("Located the file upload file field.", debug)
 
     # submit the file to the unity license server
@@ -206,7 +231,7 @@ def main():
     and authorize a unity personal licesnse.
     """
     io.print_pretty('Starting...', True)
-    
+
     io.print_pretty('Settig up the web driver...', True)
     opts = webdriver.FirefoxOptions()
     opts.binary_location = '/usr/bin/firefox-esr'
@@ -220,8 +245,28 @@ def main():
     else:
         io.print_pretty('Using Graphical Mode', True)
 
+    # Create a firefox profile for selenium to use
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("browser.contentblocking.fingerprinting.preferences.ui.enabled", False)
+    profile.set_preference("browser.contentblocking.reject-and-isolate-cookies.preferences.ui.enabled", False)
+    profile.set_preference("privacy.trackingprotection.enabled", False)
+    profile.set_preference("privacy.trackingprotection.cryptomining.enabled", False)
+    profile.set_preference("privacy.trackingprotection.enabled", False)
+    profile.set_preference("privacy.trackingprotection.origin_telemetry.enabled", True)
+    profile.set_preference("privacy.trackingprotection.pbmode.enabled", False)
+    profile.set_preference("privacy.trackingprotection.socialtracking.enabled", True)
+    profile.set_preference("privacy.trackingprotection.testing.report_blocked_node", True)
+    profile.set_preference("privacy.socialtracking.block_cookies.enabled", False)
+    profile.set_preference("network.cookie.sameSite.laxByDefault", False)
+    profile.set_preference("network.cookie.sameSite.noneRequiresSecure", False)
+    profile.set_preference("network.cookie.cookieBehavior", 0)
+    #profile.set_preference("network.cookie.cookieBehavior.pbmode", 0)
+
+
     # Instantiate the gekko driver
-    driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', options=opts)
+    driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', \
+            firefox_profile=profile, \
+            options=opts)
     driver.implicitly_wait(10)
 
     # Read settings from jsonfile
@@ -237,10 +282,10 @@ def main():
     # Perform authentication steps
     io.print_pretty('Starting Login process...', True)
     login(driver, settings, debug)
-    
-    io.print_pretty('Starting licensing process...', debug)
+
+    # io.print_pretty('Starting licensing process...', debug)
     unity_auth_upload(driver, settings, debug)
-    
+
     # Wait for fileIO to complete
     io.print_pretty('Saving data...', True)
     time.sleep(2.4)
