@@ -1,5 +1,6 @@
-# Using seleium to authorize Unity Engine "Personal" licenses
+# Using seleium to authorize Unity Engine "Personal" licenses (WiP)
 
+> converting to work with base gameci images instead of custom ones, docs not up to date
 
 - Create a unity `ALF` then convert it to a `ULF` file automatically. 
 - Save your license file as a repo secret.
