@@ -12,8 +12,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import time
 
+tmp_file_dir = "html_reference"
+
 license_file = sys.argv[1]
 license_path = os.getcwd() + "/" + license_file
+
 config_path = os.getcwd() + "/config.json"
 
 class radio_button():
@@ -21,12 +24,12 @@ class radio_button():
     xpath = ""
     text = ""
 
-    
+
 class config():
     elements = {}
     urls = {}
 
-    
+
 def element_by_name(driver, name, debug=False):
     """
     This function will search for a webElement by it's name
@@ -38,6 +41,7 @@ def element_by_name(driver, name, debug=False):
         return element[0]
     except Exception as err:
         io.print_pretty(f"cant find the element w/ name {name}", True)
+        #print_page(driver, "element_by_name_error")
         print(err)
         return err
 
@@ -53,6 +57,7 @@ def element_by_xpath(driver, xpath, debug=False):
         return element[0]
     except Exception as err:
         io.print_pretty(f"cant find the element w/ xpath {xpath}", True)
+        #print_page(driver, "element_by_xpath_error")
         print(err)
         return err
 
@@ -68,6 +73,7 @@ def element_by_id(driver, elementId, debug=False):  # returns html element
         return element
     except Exception as err:
         io.print_pretty(f"cant find the elemtn w/ path {elementId}", True)
+        #print_page(driver, "element_by_id_error", True)
         print(err)
         return err
 
@@ -89,10 +95,8 @@ def click_on_ready(driver, element, debug=True):
         return err
 
 def click_only(driver, webElement):
-    """
-    generic function to perform a mouse click ONLY on a webElement
-    """
-    
+    # generic function to perform a mouse click ONLY on a webElement
+
     action = ActionChains(driver)
     action.move_to_element(webElement).click(on_element=webElement)
     action.perform()
@@ -100,15 +104,14 @@ def click_only(driver, webElement):
 
 
 def click_and_release(driver, webElement):
-    """
-    generic function to perform a mouse click AND release on a webElement
-    """
-    
+    # generic function to perform a mouse click AND release on a webElement
+
     action = ActionChains(driver)
     action.move_to_element(webElement).click(
             on_element=webElement).release(on_element=webElement)
     action.perform()
     time.sleep(2)
+
 
 
 def login(driver, settings, debug=False):
@@ -201,7 +204,7 @@ def select_license_type(driver, settings, debug=False):
 
     # click an option
     io.print_pretty("Locating the no-revenue option", debug)
-    webElement = element_by_xpath(driver, settings['radio_buttons']['nosale', debug])
+    webElement = element_by_xpath(driver, settings['radio_buttons']['nosale'], debug)
     click_only(driver, webElement)
 
     # submit choice
@@ -254,6 +257,7 @@ def main():
     profile.set_preference("network.cookie.cookieBehavior", 0)
     #profile.set_preference("network.cookie.cookieBehavior.pbmode", 0)
 
+
     # Instantiate the gekko driver
     driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', \
             firefox_profile=profile, \
@@ -283,8 +287,8 @@ def main():
     select_license_type(driver, settings, debug)
 
     # Wait for fileIO to complete
-    #io.print_pretty('Saving data...', True)
-    #time.sleep(2.4)
+    io.print_pretty('Saving data...', True)
+    time.sleep(2.4)
     #from pathlib import Path
     #path_to_file = '/home/player1/Downloads/Unity_v2022.x.ulf'
     #path = Path(path_to_file)
