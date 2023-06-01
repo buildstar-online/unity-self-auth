@@ -12,11 +12,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import time
 
-tmp_file_dir = "html_reference"
-
 license_file = sys.argv[1]
 license_path = os.getcwd() + "/" + license_file
-
 config_path = os.getcwd() + "/config.json"
 
 class radio_button():
@@ -24,12 +21,12 @@ class radio_button():
     xpath = ""
     text = ""
 
-
+    
 class config():
     elements = {}
     urls = {}
 
-
+    
 def element_by_name(driver, name, debug=False):
     """
     This function will search for a webElement by it's name
@@ -41,7 +38,6 @@ def element_by_name(driver, name, debug=False):
         return element[0]
     except Exception as err:
         io.print_pretty(f"cant find the element w/ name {name}", True)
-        print_page(driver, "element_by_name_error")
         print(err)
         return err
 
@@ -57,7 +53,6 @@ def element_by_xpath(driver, xpath, debug=False):
         return element[0]
     except Exception as err:
         io.print_pretty(f"cant find the element w/ xpath {xpath}", True)
-        print_page(driver, "element_by_xpath_error")
         print(err)
         return err
 
@@ -73,7 +68,6 @@ def element_by_id(driver, elementId, debug=False):  # returns html element
         return element
     except Exception as err:
         io.print_pretty(f"cant find the elemtn w/ path {elementId}", True)
-        print_page(driver, "element_by_id_error", True)
         print(err)
         return err
 
@@ -90,9 +84,31 @@ def click_on_ready(driver, element, debug=True):
         io.print_pretty(f"click successful on element {element}", True)
     except Exception as err:
         io.print_pretty(f"click failed on element {element}", True)
-        print_page(driver, "click_element_error", True)
+        #print_page(driver, "click_element_error", True)
         print(err)
         return err
+
+def click_only(driver, webElement):
+    """
+    generic function to perform a mouse click ONLY on a webElement
+    """
+    
+    action = ActionChains(driver)
+    action.move_to_element(webElement).click(on_element=webElement)
+    action.perform()
+    time.sleep(2)
+
+
+def click_and_release(driver, webElement):
+    """
+    generic function to perform a mouse click AND release on a webElement
+    """
+    
+    action = ActionChains(driver)
+    action.move_to_element(webElement).click(
+            on_element=webElement).release(on_element=webElement)
+    action.perform()
+    time.sleep(2)
 
 
 def login(driver, settings, debug=False):
@@ -169,7 +185,6 @@ def unity_auth_upload(driver, settings, debug=False):
 
     io.print_pretty("Sending click event to the upload button", debug)
     click_only(driver, upload_button)
-    select_license_type(driver, settings, debug)
 
 
 def select_license_type(driver, settings, debug=False):
@@ -178,63 +193,28 @@ def select_license_type(driver, settings, debug=False):
     personal license
     """
 
-    # Finding elements by Xpath doesnt seem to be working for 20.04
-
     # click the Unity Personal option
     io.print_pretty("Locating the Unity personal radio button", debug)
 
-    #webElement = driver.find_element(
-    #        By.XPATH, settings['radio_buttons']['Personal'])
-    webElement = element_by_id(driver, 'type_personal', debug)
+    webElement = element_by_xpath(driver, settings['radio_buttons']['Personal'], debug)
     click_only(driver, webElement)
 
     # click an option
-    #webElement = driver.find_element(
-    #        By.XPATH, settings['radio_buttons']['nosale'])
-    webElement = element_by_id(driver, 'option3', debug)
-    click_only(driver, webElement, debug)
+    io.print_pretty("Locating the no-revenue option", debug)
+    webElement = element_by_xpath(driver, settings['radio_buttons']['nosale', debug])
+    click_only(driver, webElement)
 
     # submit choice
-    webElement = driver.find_element(
-            By.XPATH, settings['config']['license_options_submit'])
-    click_only(driver, webElement, debug)
+    io.print_pretty("Locating the submit button", debug)
+    webElement = element_by_xpath(driver, settings['config']['license_options_submit'], debug)
+    click_only(driver, webElement)
 
     time.sleep(2)
 
     # download the license file to ~/Downloads
-    webElement = driver.find_element(
-            By.XPATH, settings['config']['download_license']).click()
-
-
-def click_only(driver, webElement):
-    # generic function to perform a mouse click ONLY on a webElement
-
-    action = ActionChains(driver)
-    action.move_to_element(webElement).click(on_element=webElement)
-    action.perform()
-    time.sleep(2)
-
-
-def click_and_release(driver, webElement):
-    # generic function to perform a mouse click AND release on a webElement
-
-    action = ActionChains(driver)
-    action.move_to_element(webElement).click(
-            on_element=webElement).release(on_element=webElement)
-    action.perform()
-    time.sleep(2)
-
-
-def print_page(driver, name, debug=True):
-    # print the page source of the dirver to a .html file
-
-    """
-    helpful when you need to see the HTML and find the element names because
-    the license page will forcefully redirect you if you are not logged in
-    """
-
-    path = f"{name}.html"
-    io.write_file(path, driver.page_source, debug)
+    io.print_pretty("Locating the download button", debug)
+    webElement = element_by_xpath(driver, settings['config']['download_license'], debug)
+    click_only(driver, webElement)
 
 
 def main():
@@ -274,7 +254,6 @@ def main():
     profile.set_preference("network.cookie.cookieBehavior", 0)
     #profile.set_preference("network.cookie.cookieBehavior.pbmode", 0)
 
-
     # Instantiate the gekko driver
     driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', \
             firefox_profile=profile, \
@@ -291,12 +270,17 @@ def main():
     vars = io.Variables(json_data, debug, go_steppy)
     settings = vars.settings
 
-    # Perform authentication steps
+    # Perform login steps
     io.print_pretty('Starting Login process...', True)
     login(driver, settings, debug)
 
-    #io.print_pretty('Starting licensing process...', debug)
+    # Perform file upload steps
+    io.print_pretty('Starting licensing process...', True)
     unity_auth_upload(driver, settings, debug)
+
+    # Select license type
+    io.print_pretty('Selecting the license type...', True)
+    select_license_type(driver, settings, debug)
 
     # Wait for fileIO to complete
     #io.print_pretty('Saving data...', True)
