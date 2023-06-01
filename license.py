@@ -51,8 +51,8 @@ def element_by_xpath(driver, xpath, debug=False):
     This function will search for a webElement by it's Xpath
     """
     try:
-        element = WebDriverWait(driver, 10).until(
-            ec.presence_of_element_located((By.XPATH, xpath)))
+        wait = WebDriverWait(driver, timeout=10)
+        element = driver.find_elements(By.XPATH, xpath)
         io.print_pretty(f"found {element} using the path: {xpath}", debug)
         return element[0]
     except Exception as err:
@@ -124,16 +124,23 @@ def login(driver, settings, debug=False):
     io.print_pretty('Finding the Login Button...', debug)
     wait = WebDriverWait(driver, 5)
 
+    ####################################################################
     # Try to find by xpath (seems broken as of 29/05/2023)
-    # use find by name instead
-    #button_name = settings['config']['login_button']
-    #login_button = element_by_xpath(driver, button_name, debug)
-    #click_on_ready(driver, login_button, debug)
+    # use find by name instead. Revert if failing when upgrated to 22.04
+    ####################################################################
+    # button_name = settings['config']['login_button']
+    # login_button = element_by_xpath(driver, button_name, debug)
+    # click_on_ready(driver, login_button, debug)
 
     # Alternatively, find by by name
     login_button = element_by_name(driver, "commit")
+
+    # Click the login button
+    io.print_pretty('Sending click event to the Login Button...', debug)
     click_only(driver, login_button)
 
+    io.print_pretty('Waiting for login process to complete. Moving on too quickly will cause the license page to be redirected back to the login page.', debug)
+    time.sleep(5)
 
 def unity_auth_upload(driver, settings, debug=False):
     """
@@ -144,25 +151,24 @@ def unity_auth_upload(driver, settings, debug=False):
     # get the liscence activation page
     io.print_pretty('Load the License Activation Page...', debug)
     driver.get(settings['urls']['license'])
-    # driver.get('about:profiles')
 
     # get the file upload element and pass it our license file
     # We have to do a sleep here or Unity will clear our inputs
+    io.print_pretty('Sleeping for 7 seconds to allow the page to refresh. This is required or else the refresh will clear any populated fields.', debug)
     time.sleep(7)
-    io.print_pretty('Looking for the upload field...', debug)
-    driver.find_element(By.ID, settings['config']['file_elementId']).send_keys(license_path)
 
-    io.print_pretty("Located the file upload file field.", debug)
+    io.print_pretty('Looking for the upload field...', debug)
+    upload_field = element_by_id(driver, settings['config']['file_elementId'], debug)
+    upload_field.send_keys(license_path)
 
     # submit the file to the unity license server
     # will redirect you forcibly to the unity account login if you arent using
     # a logged-in session
-    webElement = driver.find_element(
-            By.XPATH, settings['config']['button_class_name'])
-    io.print_pretty("Located the file upload button.", debug)
+    io.print_pretty("Looking for the upload button.", debug)
+    upload_button = element_by_xpath(driver, settings['config']['button_class_name'], debug)
 
-    click_only(driver, webElement)
-    io.print_pretty("Successfully clicked the upload button", debug)
+    io.print_pretty("Sending click event to the upload button", debug)
+    click_only(driver, upload_button)
     select_license_type(driver, settings, debug)
 
 
@@ -172,20 +178,26 @@ def select_license_type(driver, settings, debug=False):
     personal license
     """
 
+    # Finding elements by Xpath doesnt seem to be working for 20.04
+
     # click the Unity Personal option
-    webElement = driver.find_element(
-            By.XPATH, settings['radio_buttons']['Personal'])
-    click_on_ready(driver, webElement, debug)
+    io.print_pretty("Locating the Unity personal radio button", debug)
+
+    #webElement = driver.find_element(
+    #        By.XPATH, settings['radio_buttons']['Personal'])
+    webElement = element_by_id(driver, 'type_personal', debug)
+    click_only(driver, webElement)
 
     # click an option
-    webElement = driver.find_element(
-            By.XPATH, settings['radio_buttons']['nosale'])
-    click_on_ready(driver, webElement, debug)
+    #webElement = driver.find_element(
+    #        By.XPATH, settings['radio_buttons']['nosale'])
+    webElement = element_by_id(driver, 'option3', debug)
+    click_only(driver, webElement, debug)
 
     # submit choice
     webElement = driver.find_element(
             By.XPATH, settings['config']['license_options_submit'])
-    click_on_ready(driver, webElement, debug)
+    click_only(driver, webElement, debug)
 
     time.sleep(2)
 
@@ -204,7 +216,7 @@ def click_only(driver, webElement):
 
 
 def click_and_release(driver, webElement):
-    # generic function to perform a mouse click  AND release on a webElement
+    # generic function to perform a mouse click AND release on a webElement
 
     action = ActionChains(driver)
     action.move_to_element(webElement).click(
@@ -283,17 +295,17 @@ def main():
     io.print_pretty('Starting Login process...', True)
     login(driver, settings, debug)
 
-    # io.print_pretty('Starting licensing process...', debug)
+    #io.print_pretty('Starting licensing process...', debug)
     unity_auth_upload(driver, settings, debug)
 
     # Wait for fileIO to complete
-    io.print_pretty('Saving data...', True)
-    time.sleep(2.4)
-    from pathlib import Path
-    path_to_file = '/home/player1/Downloads/Unity_v2022.x.ulf'
-    path = Path(path_to_file)
-    if path.is_file():
-        io.print_pretty(f'The file {path_to_file} exists', debug)
-    else:
-        io.print_pretty(f'The file {path_to_file} does not exist', debug)
+    #io.print_pretty('Saving data...', True)
+    #time.sleep(2.4)
+    #from pathlib import Path
+    #path_to_file = '/home/player1/Downloads/Unity_v2022.x.ulf'
+    #path = Path(path_to_file)
+    #if path.is_file():
+    #    io.print_pretty(f'The file {path_to_file} exists', debug)
+    #else:
+    #    io.print_pretty(f'The file {path_to_file} does not exist', debug)
 main()
