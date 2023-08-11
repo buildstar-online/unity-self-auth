@@ -1,6 +1,7 @@
 # Using seleium to authorize Unity Engine "Personal" licenses (WiP)
 
-> converting to work with base gameci images instead of custom ones, docs not up to date
+> [!warning]
+> Unity no longer supports manual activation of personal licenses :( R.I.P
 
 - Create a unity `ALF` then convert it to a `ULF` file automatically. 
 - Save your license file as a repo secret.
@@ -43,7 +44,7 @@ cd /tmp/scratch
 
 # Export important variables
 EDITOR_VERSION="2022.1.23f1"
-EDITOR_IMAGE="udeserializeme/gcicudaeditor:latest"
+EDITOR_IMAGE="deserializeme/gcicudaeditor:latest"
 SLENIUM_IMAGE="deserializeme/gcicudaselenium:latest"
 USERNAME="YOUR_EMAIL_HERE"
 PASSWORD="YOUR_PASSWORD_HERE"
@@ -53,7 +54,7 @@ chown 1000:1000 .
 touch Unity_v${EDITOR_VERSION}.alf
 
 # Generate the ALF file using the Editor 
-docker run --rm -it -v $(pwd)/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
+docker run --rm -it -v $(pwd)/Unity_v${EDITOR_VERSION}.alf:/home/player1/Unity_v${EDITOR_VERSION}.alf \
     --user root \
     $EDITOR_IMAGE \
     unity-editor -quit \
