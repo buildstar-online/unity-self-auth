@@ -8,7 +8,8 @@
     "file_elementId": "licenseFile",
     "email_elementId": "conversations_create_session_form_email",
     "button_class_name": "//input[contains(@class,'btn')]",
-    "password_elementId": "conversations_create_session_form_password"
+    "password_elementId": "conversations_create_session_form_password",
+    "hidden_personal_section": "//div[contains(@class,'option option-personal clear')]"
   },
   "urls": {
     "login": "https://id.unity.com/en",
