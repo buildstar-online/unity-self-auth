@@ -196,6 +196,10 @@ def select_license_type(driver, settings, debug=False):
     personal license
     """
 
+    # Reveal hidden options
+    hidden_element = settings['config']['hidden_personal_section']
+    element = element_by_id(driver, hidden_element, debug)
+    
     # click the Unity Personal option
     io.print_pretty("Locating the Unity personal radio button", debug)
 
