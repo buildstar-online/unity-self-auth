@@ -15,6 +15,10 @@ on:
         description: 'Editor Version'
         required: true
         default: '2022.1.23f1'
+      headless:
+        description: 'Run without GUI'
+        required: true
+        default: 'False'
 jobs:
   test-auth:
     runs-on: self-hosted
@@ -56,15 +60,15 @@ jobs:
             -p 5900:5900 \
             -e USERNAME=${{ secrets.UNITY_USERNAME }} \
             -e PASSWORD=${{ secrets.UNITY_PASSWORD }} \
-            -e HEADLESS=True \
+            -e HEADLESS=$HEADLESS \
             $SELENIUM_IMAGE \
             ./license.py ../Downloads/Unity_v$EDITOR_VERSION.alf
-            ##x11vnc --loop --create
+            x11vnc --loop --create
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
-
+          HEADLESS: ${{github.event.inputs.headless}}
       #- name: Store and Mask License Data
       #  run: |
       #    UNITY_LICENSE=$(cat *.ulf)
