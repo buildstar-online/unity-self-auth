@@ -1,8 +1,5 @@
 # Using seleium to authorize Unity Engine "Personal" licenses (WiP)
 
-> [!warning]
-> Unity no longer supports manual activation of personal licenses :( R.I.P
-
 - Create a unity `ALF` then convert it to a `ULF` file automatically. 
 - Save your license file as a repo secret.
 - Built with Docker so it can be easily run on your local machine or in a pipeline.
