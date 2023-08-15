@@ -196,9 +196,14 @@ def select_license_type(driver, settings, debug=False):
     personal license
     """
 
+    # Reveal hidden options
+    io.print_pretty("Attempting to revel hideen personal licenses options...", debug)
+    hidden_element = settings['config']['hidden_personal_section']
+    element = element_by_xpath(driver, hidden_element, debug)
+    driver.execute_script("arguments[0].setAttribute('style', 'display: true')", element)
+
     # click the Unity Personal option
     io.print_pretty("Locating the Unity personal radio button", debug)
-
     webElement = element_by_xpath(driver, settings['radio_buttons']['Personal'], debug)
     click_only(driver, webElement)
 
@@ -210,6 +215,9 @@ def select_license_type(driver, settings, debug=False):
     # submit choice
     io.print_pretty("Locating the submit button", debug)
     webElement = element_by_xpath(driver, settings['config']['license_options_submit'], debug)
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") 
+    ActionChains(driver).move_to_element(webElement).perform()
     click_only(driver, webElement)
 
     time.sleep(2)
@@ -289,11 +297,11 @@ def main():
     # Wait for fileIO to complete
     io.print_pretty('Saving data...', True)
     time.sleep(2.4)
-    #from pathlib import Path
-    #path_to_file = '/home/player1/Downloads/Unity_v2022.x.ulf'
-    #path = Path(path_to_file)
-    #if path.is_file():
-    #    io.print_pretty(f'The file {path_to_file} exists', debug)
-    #else:
-    #    io.print_pretty(f'The file {path_to_file} does not exist', debug)
+    from pathlib import Path
+    path_to_file = '/home/player1/Downloads/Unity_v2022.x.ulf'
+    path = Path(path_to_file)
+    if path.is_file():
+        io.print_pretty(f'The file {path_to_file} exists', debug)
+    else:
+        io.print_pretty(f'The file {path_to_file} does not exist', debug)
 main()
