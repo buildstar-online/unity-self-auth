@@ -14,11 +14,10 @@ An automated license-management tool for Unity3D buit with Python and Selenium.<
 
 <br>
 <h3 align=center>
-View the Demo
+Watch a demo <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">HERE</a>
 </h3>
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">
     <img width=600 src="https://github.com/buildstar-online/gameci-docker-extras/assets/84841307/305f87d0-f136-43c8-a9b5-5c5da19a0803">
   </a>
 </p>
