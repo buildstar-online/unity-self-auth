@@ -18,7 +18,9 @@ View the Demo
 </h3>
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8"><img width=600 src="https://github.com/buildstar-online/gameci-docker-extras/assets/84841307/305f87d0-f136-43c8-a9b5-5c5da19a0803"></a>
+  <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">
+    <img width=600 src="https://github.com/buildstar-online/gameci-docker-extras/assets/84841307/305f87d0-f136-43c8-a9b5-5c5da19a0803">
+  </a>
 </p>
 <br>
 
