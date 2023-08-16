@@ -24,7 +24,8 @@ Watch a demo <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">HERE</a>
 <br>
 
 ## Features
-- Create a unity `ALF` and convert it to a `ULF` file automatically. 
+- Create a unity `ALF` and convert it to a `ULF` file automatically.
+- Run headless or with a GUI.
 - Built with Docker + Python so it can run in any CI system.
 - Compatible with official GameCI Editor images on [Dockerhub](https://hub.docker.com/r/unityci/editor/tags)
 
