@@ -1,22 +1,43 @@
-# Using seleium to authorize Unity Engine "Personal" licenses (WiP)
+<h1 align=center>
+Unity3D Ephemeral Auth
+</h1>
 
-- Create a unity `ALF` then convert it to a `ULF` file automatically. 
-- Save your license file as a repo secret.
-- Built with Docker so it can be easily run on your local machine or in a pipeline.
-- Works with the standard GameCI Editor images on [Dockerhub](https://hub.docker.com/r/unityci/editor/tags)
+<p align=center>
+An automated license-management tool for Unity3D buit with Python and Selenium.<br>
+<br>
+  
+<p align="center">
+  <img width="64" src="https://cdn4.iconfinder.com/data/icons/logos-brands-5/24/unity-1024.png">
+  <img width="64" src="https://icons-for-free.com/iconfiles/png/512/python-1331550892661227292.png">
+  <img width="64" src="https://icons-for-free.com/iconfiles/png/512/docker+moby-1331550887427248522.png">
+<p>
 
-## This project is a work in-progress, specifically regarding:
-- Documentation is still being actively tested for accuracy
-- Tests for the python code still need to be written
-- Rotating the License automatically via Github Actions is still in testing due to challenges properly obscuring sensitive data in the worflow logs.
-- Selenium script uses explicit sleep/wait calls between page loads which need to be replaces with some smarter "while/until" logic.
+<br>
+<h3 align=center>
+View the Demo
+</h3>
 
-## Known Issues:
-- ULF file creation will fail if login is blocked by a 2factor challange. Running from a machine in a region other than the one you have chosen for your unity account will trigger such an event. 
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8"><img width=600 src="https://github.com/buildstar-online/gameci-docker-extras/assets/84841307/305f87d0-f136-43c8-a9b5-5c5da19a0803"></a>
+</p>
+<br>
 
-  > For example, running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine. Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
+## Features
+- Create a unity `ALF` and convert it to a `ULF` file automatically. 
+- Built with Docker + Python so it can run in any CI system.
+- Compatible with official GameCI Editor images on [Dockerhub](https://hub.docker.com/r/unityci/editor/tags)
 
-## Running in a pipeline:
+## Disclaimer
+
+> [!warning] 
+> Unity isnt a fan of letting you do this with a personal license and has already taken steps to break this style of workflow. I will continue to patch and update as I am able to maintain functionality.
+  
+> [!note]
+> ULF file creation will fail if login is blocked by a 2factor challange. Running from a machine in a region other than the one you have chosen for your unity account will trigger such an event. 
+> Example: running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine. Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
+
+
+## Pipelines Use
 
 1. Choose an editor image from GameCi's [Dockerhub](https://hub.docker.com/r/unityci/editor/tags), or bring your own.
 
@@ -33,7 +54,8 @@
 
     <img width="375" alt="Screenshot 2023-04-23 at 15 33 43" src="https://user-images.githubusercontent.com/84841307/233842892-349c1318-eb9e-4942-aacb-01f29b8107b2.png">
 
-## Run from the command line
+## Command Line Use
+
 ```bash
 # Create a temporary directoy to work in
 mkdir -p /tmp/scratch
@@ -73,7 +95,7 @@ docker run --rm -it --user 1000:1000 \
     ./license.py ../Downloads/Unity_v${EDITOR_VERSION}.alf
 ```
 
-## You can also run graphical session over VNC if desired
+You can also run graphical session over VNC if desired:
 
 ```bash
 docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/player1/Downloads \
@@ -86,7 +108,7 @@ docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/player1/Downl
     x11vnc --loop --create
 ```
 
-## Testing activation
+Activate the License:
 
 ```bash
 docker run --rm -it --mount type=bind,source=$(pwd),target=/home/player1/Downloads \
@@ -98,5 +120,9 @@ docker run --rm -it --mount type=bind,source=$(pwd),target=/home/player1/Downloa
     -logFile /dev/stdout \
     -manualLicenseFile /home/player1/Downloads/*.ulf
 ```
+
+## TODO
+- Rotating the License automatically via Github Actions is still in testing due to challenges properly obscuring sensitive data in the worflow logs.
+- Selenium script uses explicit sleep/wait calls between page loads which need to be replaces with some smarter "while/until" logic.
 
 
