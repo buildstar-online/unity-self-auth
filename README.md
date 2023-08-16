@@ -31,10 +31,15 @@ View the Demo
 
 > [!warning] 
 > Unity isnt a fan of letting you do this with a personal license and has already taken steps to break this style of workflow. I will continue to patch and update as I am able to maintain functionality.
-  
+
 > [!note]
-> ULF file creation will fail if login is blocked by a 2factor challange. Running from a machine in a region other than the one you have chosen for your unity account will trigger such an event. 
-> Example: running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine. Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
+> Only personal licences are supported for now becaue I don't have a pro license.
+
+> [!note]
+> ULF file creation will fail if login is blocked by a 2factor challange. Running from a machine in a region other than the one you have chosen for your unity account will trigger such an event.
+>  
+> Example: running this on my Hetzner machine in Germany fails because Unity security blocks the login, but runs successfully from a local machine.
+> Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
 
 
 ## Pipelines Use
