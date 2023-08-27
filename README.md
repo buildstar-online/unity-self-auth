@@ -70,17 +70,17 @@ cd /tmp/scratch
 
 # Export important variables
 EDITOR_VERSION="2022.1.23f1"
-EDITOR_IMAGE="deserializeme/gcicudaeditor:latest"
+PLATFORM="webgl-1"
+EDITOR_IMAGE="unityci/editor:ubuntu-${EDITOR_VERSION}-${PLATFORM}"
 SLENIUM_IMAGE="deserializeme/gcicudaselenium:latest"
 USERNAME="YOUR_EMAIL_HERE"
 PASSWORD="YOUR_PASSWORD_HERE"
 
-# Change ownership of local dir so the container user can save data to mounted volumes
-chown 1000:1000 .
+# create a placeholder for the .alf file
 touch Unity_v${EDITOR_VERSION}.alf
 
-# Generate the ALF file using the Editor 
-docker run --rm -it -v $(pwd)/Unity_v${EDITOR_VERSION}.alf:/home/player1/Unity_v${EDITOR_VERSION}.alf \
+# Populate the ALF file using the Editor 
+docker run --rm -it -v /tmp/scratch/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITOR_VERSION}.alf \
     --user root \
     $EDITOR_IMAGE \
     unity-editor -quit \
@@ -92,12 +92,11 @@ docker run --rm -it -v $(pwd)/Unity_v${EDITOR_VERSION}.alf:/home/player1/Unity_v
     -password "$PASSWORD"
 
 ## Generate the ULF file via Selenium + Firefox
-
 docker run --rm -it --user 1000:1000 \
-    --mount type=bind,source="$(pwd)",target=/home/player1/unity-self-auth/Downloads \
+    --mount type=bind,source=/tmp/scratch/,target=/home/player1/unity-self-auth/Downloads \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
-    -e HEADLESS="True" \
+    -e HEADLESS="False" \
     $SLENIUM_IMAGE \
     ./license.py ../Downloads/Unity_v${EDITOR_VERSION}.alf
 ```
