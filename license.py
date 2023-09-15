@@ -257,8 +257,8 @@ def main():
     opts.set_preference("network.cookie.sameSite.noneRequiresSecure", False)
     opts.set_preference("network.cookie.cookieBehavior", 0)
     opts.set_preference("network.cookie.cookieBehavior.pbmode", 0)
-    opts.AddArguments("--width=1920");
-    opts.AddArguments("--height=1080");
+    opts.add_argument("--width=1920");
+    opts.add_argument("--height=1080");
 
     if(headless):
         opts.add_argument("-headless")
