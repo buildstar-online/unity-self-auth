@@ -96,7 +96,7 @@ docker run --rm -it --user 1000:1000 \
     --mount type=bind,source=/tmp/scratch/,target=/home/player1/unity-self-auth/Downloads \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
-    -e HEADLESS="False" \
+    -e HEADLESS="True" \
     $SLENIUM_IMAGE \
     ./license.py ../Downloads/Unity_v${EDITOR_VERSION}.alf
 ```
@@ -104,14 +104,14 @@ docker run --rm -it --user 1000:1000 \
 You can also run graphical session over VNC if desired:
 
 ```bash
-docker run --rm -it --mount type=bind,source="$(pwd)",target=/home/player1/Downloads \
+docker run --rm -it --mount type=bind,source=/tmp/scratch/,target=/home/player1/Downloads \
     --user 1000:1000 \
     -p 5900:5900 \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
     -e HEADLESS="False" \
-    deserializeme/gcicudaseleniumxfce:latest \
-    x11vnc --loop --create
+    $SLENIUM_IMAGE \
+    x11vnc --create && xterm -e "./license.py ../Downloads/Unity_v${EDITOR_VERSION}.alf"
 ```
 
 Activate the License:
