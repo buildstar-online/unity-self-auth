@@ -12,14 +12,12 @@ COPY sources.list.datapacket /etc/apt/sources.list
 RUN apt-get update && yes |apt-get install -y sudo \
     software-properties-common \
     python3-pip \
-    xfce4 \
-    xfce4-goodies \
+    icewm \
     xinit \
     xterm \
     xvfb \
     x11vnc \
-    neovim \
-    xfce4-goodies
+    neovim
 
 COPY mozilla-firefox /etc/apt/preferences.d/mozilla-firefox
 
