@@ -1,4 +1,4 @@
-name: Build Selenium Xfce
+name: Build Unity Self-Auth
 on:
   workflow_dispatch:
     inputs:
@@ -32,9 +32,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            deserializeme/gcicudaseleniumxfce
+            deserializeme/unity-self-auth
           tags: |
-            "latest"
+            {{github.event.inputs.tags}}
           
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -46,7 +46,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          file: Dockerfile.xfce
+          file: Dockerfile
           build-args: |
           context: .
           push: ${{ github.event_name != 'pull_request' }}
