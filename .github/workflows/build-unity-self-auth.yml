@@ -34,7 +34,7 @@ jobs:
           images: |
             deserializeme/unity-self-auth
           tags: |
-            {{github.event.inputs.tags}}
+            {{github.event.inputs.tag}}
           
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
