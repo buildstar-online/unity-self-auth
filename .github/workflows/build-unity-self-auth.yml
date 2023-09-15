@@ -42,9 +42,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          file: Dockerfile
+          file: ./docker/Dockerfile
           build-args: |
-          context: .
+          context: ./docker/
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ github.event.inputs.tag }}
           labels: ${{ steps.meta.outputs.labels }}
