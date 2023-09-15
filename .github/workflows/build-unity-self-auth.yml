@@ -6,10 +6,6 @@ on:
         description: 'Image Tag'
         required: true
         default: 'latest'
-      base_image:
-        description: 'Hub Image'
-        required: true
-        default: 'deserializeme/gcicudahub:latest'
 
 jobs:
   build-selenium-xfce:
