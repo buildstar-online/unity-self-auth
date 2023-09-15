@@ -94,6 +94,7 @@ def click_on_ready(driver, element, debug=True):
         print(err)
         return err
 
+
 def click_only(driver, webElement):
     # generic function to perform a mouse click ONLY on a webElement
 
@@ -111,7 +112,6 @@ def click_and_release(driver, webElement):
             on_element=webElement).release(on_element=webElement)
     action.perform()
     time.sleep(2)
-
 
 
 def login(driver, settings, debug=False):
@@ -160,6 +160,7 @@ def login(driver, settings, debug=False):
 
     io.print_pretty('Waiting for login process to complete. Moving on too quickly will cause the license page to be redirected back to the login page.', debug)
     time.sleep(5)
+
 
 def unity_auth_upload(driver, settings, debug=False):
     """
@@ -235,18 +236,8 @@ def main():
     """
     io.print_pretty('Starting...', True)
 
-    io.print_pretty('Settig up the web driver...', True)
-    opts = webdriver.FirefoxOptions()
-    opts.binary_location = '/usr/bin/firefox-esr'
-
     io.print_pretty('Determining headless status', True)
     headless = os.getenv("HEADLESS", "False") == "True"
-
-    if(headless):
-        opts.add_argument("-headless")
-        io.print_pretty('Using Headless Mode', True)
-    else:
-        io.print_pretty('Using Graphical Mode', True)
 
     # Create a firefox profile for selenium to use
     profile = webdriver.FirefoxProfile()
@@ -265,11 +256,21 @@ def main():
     profile.set_preference("network.cookie.cookieBehavior", 0)
     #profile.set_preference("network.cookie.cookieBehavior.pbmode", 0)
 
+    io.print_pretty('Settig up the web driver...', True)
+    opts = Options()
+    opts.binary_location = '/usr/bin/firefox-esr'
+    opts.set_preference('profile', profile)
+
+    if(headless):
+        opts.add_argument("-headless")
+        io.print_pretty('Using Headless Mode', True)
+    else:
+        io.print_pretty('Using Graphical Mode', True)
 
     # Instantiate the gekko driver
-    driver = webdriver.Firefox(executable_path='/home/player1/.local/bin/geckodriver', \
-            firefox_profile=profile, \
+    driver = webdriver.Firefox(firefox_profile=profile, \
             options=opts)
+
     driver.implicitly_wait(10)
 
     # Read settings from jsonfile

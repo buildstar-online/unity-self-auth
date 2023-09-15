@@ -21,16 +21,18 @@ RUN apt-get update && yes |apt-get install -y sudo \
 
 COPY mozilla-firefox /etc/apt/preferences.d/mozilla-firefox
 
-RUN echo 'player1 ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-    
-RUN sudo mkdir -p /home/player1/.local/bin && \
-    sudo mkdir -p /home/player1/.local/lib && \
-    sudo chown player1:player1 /home/player1/.local/bin && \
-    sudo chown player1:player1 /home/player1/.local/lib
+# create a user for non-root operation
+ARG USER="player1"
+RUN useradd -ms /bin/bash $USER && \
+        usermod -aG sudo $USER && \
+        echo "$USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+        mkdir -p /home/$USER/.local/bin && \
+        mkdir -p /home/$USER/.local/lib && \
+        chown -R $USER:$USER /home/$USER/
 
 # Swap to user account for install so pip doesnt break
-USER player1
-WORKDIR /home/player1/
+USER $USER
+WORKDIR /home/$USER/
 
 RUN git clone https://github.com/cloudymax/unity-self-auth.git
 
@@ -44,4 +46,4 @@ RUN sudo add-apt-repository -y ppa:mozillateam/ppa && \
     
 RUN pip3 install -r unity-self-auth/requirements.txt
 
-WORKDIR /home/player1/unity-self-auth
+WORKDIR /home/$USER/unity-self-auth
