@@ -240,20 +240,20 @@ def main():
     headless = os.getenv("HEADLESS", "False") == "True"
 
     # Create a firefox profile for selenium to use
-    profile = webdriver.FirefoxProfile()
-    profile.set_preference("browser.contentblocking.fingerprinting.preferences.ui.enabled", False)
-    profile.set_preference("browser.contentblocking.reject-and-isolate-cookies.preferences.ui.enabled", False)
-    profile.set_preference("privacy.trackingprotection.enabled", False)
-    profile.set_preference("privacy.trackingprotection.cryptomining.enabled", False)
-    profile.set_preference("privacy.trackingprotection.enabled", False)
-    profile.set_preference("privacy.trackingprotection.origin_telemetry.enabled", True)
-    profile.set_preference("privacy.trackingprotection.pbmode.enabled", False)
-    profile.set_preference("privacy.trackingprotection.socialtracking.enabled", True)
-    profile.set_preference("privacy.trackingprotection.testing.report_blocked_node", True)
-    profile.set_preference("privacy.socialtracking.block_cookies.enabled", False)
-    profile.set_preference("network.cookie.sameSite.laxByDefault", False)
-    profile.set_preference("network.cookie.sameSite.noneRequiresSecure", False)
-    profile.set_preference("network.cookie.cookieBehavior", 0)
+    ff_profile = webdriver.FirefoxProfile()
+    ff_profile.set_preference("browser.contentblocking.fingerprinting.preferences.ui.enabled", False)
+    ff_profile.set_preference("browser.contentblocking.reject-and-isolate-cookies.preferences.ui.enabled", False)
+    ff_profile.set_preference("privacy.trackingprotection.enabled", False)
+    ff_profile.set_preference("privacy.trackingprotection.cryptomining.enabled", False)
+    ff_profile.set_preference("privacy.trackingprotection.enabled", False)
+    ff_profile.set_preference("privacy.trackingprotection.origin_telemetry.enabled", True)
+    ff_profile.set_preference("privacy.trackingprotection.pbmode.enabled", False)
+    ff_profile.set_preference("privacy.trackingprotection.socialtracking.enabled", True)
+    ff_profile.set_preference("privacy.trackingprotection.testing.report_blocked_node", True)
+    ff_profile.set_preference("privacy.socialtracking.block_cookies.enabled", False)
+    ff_profile.set_preference("network.cookie.sameSite.laxByDefault", False)
+    ff_profile.set_preference("network.cookie.sameSite.noneRequiresSecure", False)
+    ff_profile.set_preference("network.cookie.cookieBehavior", 0)
     #profile.set_preference("network.cookie.cookieBehavior.pbmode", 0)
 
     io.print_pretty('Settig up the web driver...', True)
@@ -268,7 +268,7 @@ def main():
         io.print_pretty('Using Graphical Mode', True)
 
     # Instantiate the gekko driver
-    driver = webdriver.Firefox(firefox_profile=profile, \
+    driver = webdriver.Firefox(profile=ff_profile, \
             options=opts)
 
     driver.implicitly_wait(10)
