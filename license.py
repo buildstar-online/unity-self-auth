@@ -238,28 +238,25 @@ def main():
 
     io.print_pretty('Determining headless status', True)
     headless = os.getenv("HEADLESS", "False") == "True"
-
-    # Create a firefox profile for selenium to use
-    ff_profile = webdriver.FirefoxProfile()
-    ff_profile.set_preference("browser.contentblocking.fingerprinting.preferences.ui.enabled", False)
-    ff_profile.set_preference("browser.contentblocking.reject-and-isolate-cookies.preferences.ui.enabled", False)
-    ff_profile.set_preference("privacy.trackingprotection.enabled", False)
-    ff_profile.set_preference("privacy.trackingprotection.cryptomining.enabled", False)
-    ff_profile.set_preference("privacy.trackingprotection.enabled", False)
-    ff_profile.set_preference("privacy.trackingprotection.origin_telemetry.enabled", True)
-    ff_profile.set_preference("privacy.trackingprotection.pbmode.enabled", False)
-    ff_profile.set_preference("privacy.trackingprotection.socialtracking.enabled", True)
-    ff_profile.set_preference("privacy.trackingprotection.testing.report_blocked_node", True)
-    ff_profile.set_preference("privacy.socialtracking.block_cookies.enabled", False)
-    ff_profile.set_preference("network.cookie.sameSite.laxByDefault", False)
-    ff_profile.set_preference("network.cookie.sameSite.noneRequiresSecure", False)
-    ff_profile.set_preference("network.cookie.cookieBehavior", 0)
-    #profile.set_preference("network.cookie.cookieBehavior.pbmode", 0)
-
     io.print_pretty('Settig up the web driver...', True)
     opts = Options()
     opts.binary_location = '/usr/bin/firefox-esr'
-    opts.set_preference('profile', profile)
+ 
+    # Create a firefox profile for selenium to use
+    opts.set_preference("browser.contentblocking.fingerprinting.preferences.ui.enabled", False)
+    opts.set_preference("browser.contentblocking.reject-and-isolate-cookies.preferences.ui.enabled", False)
+    opts.set_preference("privacy.trackingprotection.enabled", False)
+    opts.set_preference("privacy.trackingprotection.cryptomining.enabled", False)
+    opts.set_preference("privacy.trackingprotection.enabled", False)
+    opts.set_preference("privacy.trackingprotection.origin_telemetry.enabled", True)
+    opts.set_preference("privacy.trackingprotection.pbmode.enabled", False)
+    opts.set_preference("privacy.trackingprotection.socialtracking.enabled", True)
+    opts.set_preference("privacy.trackingprotection.testing.report_blocked_node", True)
+    opts.set_preference("privacy.socialtracking.block_cookies.enabled", False)
+    opts.set_preference("network.cookie.sameSite.laxByDefault", False)
+    opts.set_preference("network.cookie.sameSite.noneRequiresSecure", False)
+    opts.set_preference("network.cookie.cookieBehavior", 0)
+    opts.set_preference("network.cookie.cookieBehavior.pbmode", 0)
 
     if(headless):
         opts.add_argument("-headless")
@@ -268,8 +265,7 @@ def main():
         io.print_pretty('Using Graphical Mode', True)
 
     # Instantiate the gekko driver
-    driver = webdriver.Firefox(profile=ff_profile, \
-            options=opts)
+    driver = webdriver.Firefox(options=opts)
 
     driver.implicitly_wait(10)
 
