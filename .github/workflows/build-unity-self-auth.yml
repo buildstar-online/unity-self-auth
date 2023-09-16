@@ -29,8 +29,6 @@ jobs:
         with:
           images: |
             deserializeme/unity-self-auth
-          tags: |
-            ${{ github.event.inputs.tag }}
           
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -46,5 +44,5 @@ jobs:
           build-args: |
           context: ./docker/
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ github.event.inputs.tag }}
+          tags: deserializeme/unity-self-auth:${{github.event.inputs.tag}}
           labels: ${{ steps.meta.outputs.labels }}
