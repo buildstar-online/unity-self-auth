@@ -72,7 +72,7 @@ cd /tmp/scratch
 EDITOR_VERSION="2022.1.23f1"
 PLATFORM="webgl-1"
 EDITOR_IMAGE="unityci/editor:ubuntu-${EDITOR_VERSION}-${PLATFORM}"
-SLENIUM_IMAGE="deserializeme/gcicudaselenium:latest"
+SLENIUM_IMAGE="deserializeme/unity-self-auth:v0.0.1"
 USERNAME="YOUR_EMAIL_HERE"
 PASSWORD="YOUR_PASSWORD_HERE"
 
@@ -111,7 +111,9 @@ docker run --rm -it --mount type=bind,source=/tmp/scratch/,target=/home/player1/
     -e PASSWORD="$PASSWORD" \
     -e HEADLESS="False" \
     $SLENIUM_IMAGE \
-    x11vnc --create && xterm -e "./license.py ../Downloads/Unity_v${EDITOR_VERSION}.alf"
+    x11vnc --create
+
+# connect to NoVNC remote desktop at <runner-ip>:8080. The default password is `ChangeMe!`
 ```
 
 Activate the License:
