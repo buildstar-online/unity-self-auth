@@ -8,7 +8,7 @@ on:
         default: 'latest'
 
 jobs:
-  build-selenium-xfce:
+  build-unity-self-auth:
     runs-on: self-hosted
     steps:
       - name: clear cache
