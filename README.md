@@ -29,7 +29,7 @@ Watch a demo <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">HERE</a>
 - Built with Docker + Python so it can run in any CI system.
 - Compatible with official GameCI Editor images on [Dockerhub](https://hub.docker.com/r/unityci/editor/tags)
 
-## Disclaimer
+## Disclaimers
 
 > [!warning] 
 > Unity isnt a fan of letting you do this with a personal license and has already taken steps to break this style of workflow. I will continue to patch and update as I am able to maintain functionality.
