@@ -119,7 +119,7 @@ docker run --rm -it --mount type=bind,source=/tmp/scratch/,target=/home/player1/
 Activate the License:
 
 ```bash
-docker run --rm -it --mount type=bind,source=$(pwd),target=/home/player1/Downloads \
+docker run --rm -it --mount type=bind,source=/tmp/scratch,target=/home/player1/Downloads \
     --user root \
     $EDITOR_IMAGE \
     unity-editor -quit \
