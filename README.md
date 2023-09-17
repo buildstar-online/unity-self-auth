@@ -44,7 +44,7 @@ Watch a demo <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">HERE</a>
 > Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
 
 
-## Pipelines Use
+## Pipelines Use (🚧 Work in progress 🚧)
 
 1. Choose an editor image from GameCi's [Dockerhub](https://hub.docker.com/r/unityci/editor/tags), or bring your own.
 
