@@ -126,7 +126,7 @@ docker run --rm -it --mount type=bind,source=/tmp/scratch,target=/home/player1/D
     -batchmode \
     -nographics \
     -logFile /dev/stdout \
-    -manualLicenseFile /home/player1/Downloads/*.ulf
+    -manualLicenseFile /home/player1/Downloads/<ULF FILE NAME>.ulf
 ```
 
 ## TODO
