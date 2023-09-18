@@ -93,7 +93,7 @@ docker run --rm -it -v /tmp/scratch/Unity_v${EDITOR_VERSION}.alf:/Unity_v${EDITO
 
 ## Generate the ULF file via Selenium + Firefox
 docker run --rm -it --user 1000:1000 \
-    --mount type=bind,source=/tmp/scratch/,target=/home/player1/unity-self-auth/Downloads \
+    --mount type=bind,source=/tmp/scratch/,target=/home/player1/Downloads \
     -e USERNAME="$USERNAME" \
     -e PASSWORD="$PASSWORD" \
     -e HEADLESS="True" \
