@@ -68,6 +68,7 @@ jobs:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
           EDITOR_VERSION: ${{github.event.inputs.editor_version}}
           HEADLESS: ${{github.event.inputs.headless}}
+      
       #- name: Store and Mask License Data
       #  run: |
       #    UNITY_LICENSE=$(cat *.ulf)
@@ -78,13 +79,6 @@ jobs:
       #    EDITOR_VERSION: ${{github.event.inputs.editor_version}}
       #    EDITOR_IMAGE: ${{github.event.inputs.editor_image}}
 
-      #- name: Add License as a Github Actions Secret 
-      #  uses: hmanzur/actions-set-secret@v2.0.0
-      #  with:
-      #    name: 'UNITY_LICENSE'
-      #    value: echo "$UNITY_LICENSE"
-      #    token: ${{ secrets.PAT }}
-
       #- name: Return Secret as file
       #  run: |
       #    sudo echo "$UNITY_LICENSE" > /tmp/Unity_v2022.x.ulf
@@ -92,6 +86,28 @@ jobs:
       #  env:
       #    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
+      #- name: get a token
+      #  run: |
+      #    curl -L \
+      #      -H "Accept: application/vnd.github+json" \
+      #      -H "Authorization: Bearer <YOUR-TOKEN>" \
+      #      -H "X-GitHub-Api-Version: 2022-11-28" \
+      #      https://api.github.com/orgs/ORG/actions/secrets/public-key
+      
+      #- name: encrypt secret
+      
+      #- name: Create new repository secret
+      #  run: |
+      #    curl -X PUT \
+      #      -H "Accept: application/vnd.github.v3+json" \
+      #      -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+      #      https://api.github.com/repos/$OWNER/$REPO/actions/secrets/$SECRET_NAME \
+      #      -d '{"encrypted_value":"<encrypted_value>","key_id":"<key_id>"}'
+      #  env:
+      #    OWNER: "buildstar-online"
+      #    REPO: "unity-self-auth"
+      #    SECRET_NAME: "TEST_LICENSE"
+      
       - name: Activate License
         run: |
           ls -hal && \
