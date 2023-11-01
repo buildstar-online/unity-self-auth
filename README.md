@@ -44,7 +44,7 @@ Watch a demo <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">HERE</a>
 > Github hosted runners are all geolocated in the USA, which will trigger the same issue for non-US residents.
 
 
-## Pipelines Use (🚧 Work in progress 🚧)
+## Pipelines Usage
 
 1. Choose an editor image from GameCi's [Dockerhub](https://hub.docker.com/r/unityci/editor/tags), or bring your own.
 
@@ -59,7 +59,7 @@ Watch a demo <a href="https://www.youtube.com/watch?v=6SmOPCSSoH8">HERE</a>
 
 3. Run the workflow with your desired Editor Image and Editor Version (leave the selenium image as is).
 
-    <img width="375" alt="Screenshot 2023-04-23 at 15 33 43" src="https://user-images.githubusercontent.com/84841307/233842892-349c1318-eb9e-4942-aacb-01f29b8107b2.png">
+<img width="319" alt="Screenshot 2023-11-01 at 12 35 02" src="https://github.com/buildstar-online/unity-self-auth/assets/84841307/f64c55b0-c513-48f2-94e8-d7f804e9c36f">
 
 ## Command Line Use
 
