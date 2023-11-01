@@ -63,7 +63,6 @@ jobs:
             -e HEADLESS=$HEADLESS \
             $SELENIUM_IMAGE \
             ./license.py ../Downloads/Unity_v$EDITOR_VERSION.alf
-            x11vnc --loop --create
         shell: bash
         env:
           SELENIUM_IMAGE: ${{github.event.inputs.selenium_image}}
