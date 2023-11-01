@@ -6,11 +6,11 @@ on:
       editor_image:
         description: 'Editor Image'
         required: true
-        default: 'deserializeme/gcicudaeditor:latest'
+        default: 'unityci/editor:ubuntu-2022.1.23f1-webgl-1'
       selenium_image:
         description: 'Selenium Image'
         required: true
-        default: 'deserializeme/gcicudaseleniumxfce:latest'
+        default: 'deserializeme/unity-self-auth:v0.0.1'
       editor_version:
         description: 'Editor Version'
         required: true
