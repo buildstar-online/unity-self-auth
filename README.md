@@ -5,12 +5,6 @@ Unity3D Ephemeral Auth
 <p align=center>
 An automated license-management tool for Unity3D built with Python and Selenium.<br>
 <br>
-  
-<p align="center">
-  <img width="64" src="https://cdn4.iconfinder.com/data/icons/logos-brands-5/24/unity-1024.png">
-  <img width="64" src="https://icons-for-free.com/iconfiles/png/512/python-1331550892661227292.png">
-  <img width="64" src="https://icons-for-free.com/iconfiles/png/512/docker+moby-1331550887427248522.png">
-<p>
 
 <br>
 <h3 align=center>
